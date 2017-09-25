@@ -1,3 +1,5 @@
+include utils/help.mk
+
 SOURCE_REPO?=gitlab.com/EasyStack/yakety
 
 YAK?=bin/yak
@@ -8,11 +10,11 @@ bin:
 .PHONY: build
 
 build: ARGS?=-x
-build: $(YAK)
+build: $(YAK)  ##@build build binary
 
 $(YAK):
 	go build -o $(YAK) $(ARGS) $(SOURCE_REPO)/cli/yak
 
 .PHONY: clean
-clean:
+clean:  ##@build remote build result
 	rm -rf bin

@@ -8,6 +8,11 @@ Refer detail information from wiki. https://gitlab.com/EasyStack/yakety/wikis
  $ make build
 ```
 
+## Roadmap
+
+ * 实做 local keep single commit
+   - ostree-go
+
 ## govendor
 
 Dependencies are handled via `govendor`. Get it via:

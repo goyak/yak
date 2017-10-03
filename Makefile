@@ -15,6 +15,16 @@ build: $(YAK)  ##@build build binary
 $(YAK):
 	go build -o $(YAK) $(ARGS) $(SOURCE_REPO)/cli/yak
 
+.PHONY: test
+
+test: ARGS?=-v
+test: ##@source test
+	go test $(ARGS) ./...
+
+fmt: ARGS?=$(SOURCE_REPO)/...
+fmt: ##@source fmt
+	go fmt $(ARGS)
+
 .PHONY: clean
 clean:  ##@build remote build result
 	rm -rf bin

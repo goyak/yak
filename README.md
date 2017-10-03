@@ -7,3 +7,13 @@ Refer detail information from wiki. https://gitlab.com/EasyStack/yakety/wikis
 ```
  $ make build
 ```
+
+## govendor
+
+Dependencies are handled via `govendor`. Get it via:
+
+    go get -u github.com/kardianos/govendor
+
+And then, run:
+
+    govendor sync

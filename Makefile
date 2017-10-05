@@ -6,30 +6,30 @@ YAK ?= bin/yak
 include utils/help.mk
 
 bin:
-	mkdir -p $@
+	@mkdir -p $@
 
 .PHONY: build
 
 build: ARGS?=-x
 build: ##@build build binary
 ifdef FORCE
-	make clean
+	@make clean
 endif
-	ARGS=$(ARGS) make $(YAK)
+	@ARGS=$(ARGS) make $(YAK)
 
 $(YAK):
-	go build -o $(YAK) $(ARGS) $(SOURCE_REPO)/cli/yak
+	@go build -o $(YAK) $(ARGS) $(SOURCE_REPO)/cli/yak
 
 .PHONY: clean
 clean: ##@build remote build result
-	rm -rf bin
+	@rm -rf bin
 
 .PHONY: test
 
 test: ARGS?=-v
 test: ##@source test
-	govendor test +local
+	@govendor test -v +local
 
 fmt: ARGS?=$(SOURCE_REPO)/...
 fmt: ##@source fmt
-	govendor fmt +local
+	@govendor fmt +local

@@ -11,13 +11,17 @@ bin:
 .PHONY: build
 
 build: ARGS?=-x
-build: $(YAK)  ##@build build binary
+build: ##@build build binary
+ifdef FORCE
+	make clean
+endif
+	ARGS=$(ARGS) make $(YAK)
 
 $(YAK):
 	go build -o $(YAK) $(ARGS) $(SOURCE_REPO)/cli/yak
 
 .PHONY: clean
-clean:  ##@build remote build result
+clean: ##@build remote build result
 	rm -rf bin
 
 .PHONY: test

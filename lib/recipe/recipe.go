@@ -17,64 +17,66 @@ package recipe
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 
 	"gopkg.in/yaml.v2"
 )
 
-/*
-## Recipe type
- - dir [local]
- - tarball [local]
- - git repo [external git repo]
- - service info (alias) [store]
+type RecipeConfig struct {
+	Name        string `yaml:"name"`
+	Summary     string
+	Version     string
+	Backend     string
+	Source      string
+	Branch      string
+	Hash        string
+	Description string
+	Configs     struct {
+		Config map[string]string `yaml:",inline"`
+	} `yaml:"config"`
+}
 
- - bundle
- - image
- - host
-*/
+type Recipe struct {
+	RecipeConfig
+}
 
-var data = `
-a: Easy!
-b:
-  c: 2
-  d: [3, 4]
-`
+type IRecipe interface {
+	IsInstallable() bool
+	Dump() string
+}
 
-type T struct {
-	A string
-	B struct {
-		RenamedC int   `yaml:"c"`
-		D        []int `yaml:",flow"`
+func LoadRecipe(file string) IRecipe {
+	config := RecipeConfig{}
+	data, err := ioutil.ReadFile(file)
+	if err != nil {
+		panic(err)
+	}
+	err = yaml.Unmarshal([]byte(data), &config)
+	if err != nil {
+		panic(err)
+	}
+	if config.Backend == "atomic" {
+		r := AtomicRecipe{}
+		r.RecipeConfig = config
+		return r
+	} else {
+		r := Recipe{}
+		r.RecipeConfig = config
+		return r
 	}
 }
 
-func main() {
-	t := T{}
+func (r Recipe) IsInstallable() bool {
+	return true
+}
 
-	err := yaml.Unmarshal([]byte(data), &t)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-	fmt.Printf("--- t:\n%v\n\n", t)
-
-	d, err := yaml.Marshal(&t)
+func (r Recipe) Dump() string {
+	d, err := yaml.Marshal(&r.RecipeConfig)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
 	fmt.Printf("--- t dump:\n%s\n\n", string(d))
 
-	m := make(map[interface{}]interface{})
-
-	err = yaml.Unmarshal([]byte(data), &m)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-	fmt.Printf("--- m:\n%v\n\n", m)
-
-	d, err = yaml.Marshal(&m)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-	fmt.Printf("--- m dump:\n%s\n\n", string(d))
+	return string(d)
 }

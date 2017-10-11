@@ -9,6 +9,16 @@ before_script:
   - cd /go/src/gitlab.com/${CI_PROJECT_PATH}
   - govendor sync
 
+createcache:
+  type: build
+  cache:
+    untracked: true
+    paths:
+      - /go/src/
+  script:
+    - cd /go/src/gitlab.com/${CI_PROJECT_PATH}
+    - govendor sync
+
 build-my-project:
   stage: build
   script:

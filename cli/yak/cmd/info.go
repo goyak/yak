@@ -17,13 +17,15 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/EasyStack/yakety/lib/recipe"
 )
 
 // infoCmd represents the info command
 var infoCmd = &cobra.Command{
-	Use:   "info",
+	Use:   "info [app]",
 	Short: "list all installed recipes",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -31,8 +33,12 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("info called")
+		fmt.Println("info Print: " + strings.Join(args, " "))
+		fmt.Println("app: " + args[0])
+		r := recipe.LoadRecipe(args[0])
+		r.Dump()
 	},
 }
 
@@ -48,4 +54,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// infoCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
 }

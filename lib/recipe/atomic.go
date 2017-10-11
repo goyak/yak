@@ -1,9 +1,9 @@
 package recipe
 
-type AtomicRecipe struct {
-	Recipe
+type AtomicRecipeConfig struct {
+	BaseRecipeConfig
 }
 
-func (r AtomicRecipe) IsInstallable() bool {
+func (r AtomicRecipeConfig) IsInstallable() bool {
 	return false
 }

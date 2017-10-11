@@ -3,7 +3,6 @@ package recipe
 import (
 	"fmt"
 	"log"
-	"runtime"
 	"testing"
 
 	"gopkg.in/yaml.v2"
@@ -41,9 +40,7 @@ func TestRecipeConfig(t *testing.T) {
 	fmt.Printf("--- t:\n%v\n\n", t)
 }
 
-func TestLoadRecipe(t *testing.T) {
-	a, filename, b, c := runtime.Caller(0)
-	fmt.Println("Current test filename: %s %s %s %s", filename, a, b, c)
-	recipe := LoadRecipe("atomic_yaml_testdata")
+func TestRecipeConfigDump(t *testing.T) {
+	recipe := LoadRecipeConfig("atomic_yaml_testdata")
 	recipe.Dump()
 }

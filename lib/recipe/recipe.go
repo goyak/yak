@@ -37,16 +37,16 @@ type RecipeConfig struct {
 	} `yaml:"config"`
 }
 
-type Recipe struct {
+type BaseRecipeConfig struct {
 	RecipeConfig
 }
 
-type IRecipe interface {
+type IRecipeConfig interface {
 	IsInstallable() bool
 	Dump() string
 }
 
-func LoadRecipe(file string) IRecipe {
+func LoadRecipeConfig(file string) IRecipeConfig {
 	config := RecipeConfig{}
 	data, err := ioutil.ReadFile(file)
 	if err != nil {
@@ -57,21 +57,21 @@ func LoadRecipe(file string) IRecipe {
 		panic(err)
 	}
 	if config.Backend == "atomic" {
-		r := AtomicRecipe{}
+		r := AtomicRecipeConfig{}
 		r.RecipeConfig = config
 		return r
 	} else {
-		r := Recipe{}
+		r := BaseRecipeConfig{}
 		r.RecipeConfig = config
 		return r
 	}
 }
 
-func (r Recipe) IsInstallable() bool {
+func (r BaseRecipeConfig) IsInstallable() bool {
 	return true
 }
 
-func (r Recipe) Dump() string {
+func (r BaseRecipeConfig) Dump() string {
 	d, err := yaml.Marshal(&r.RecipeConfig)
 	if err != nil {
 		log.Fatalf("error: %v", err)

@@ -5,6 +5,6 @@ import (
 )
 
 func TestLoadRecipe(t *testing.T) {
-	r := LoadRecipe("dir_testdata")
+	r := LoadRecipe("testdata/foo")
 	r.Dump()
 }

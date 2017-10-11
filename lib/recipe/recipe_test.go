@@ -41,6 +41,6 @@ func TestRecipeConfig(t *testing.T) {
 }
 
 func TestRecipeConfigDump(t *testing.T) {
-	recipe := LoadRecipeConfig("atomic_yaml_testdata")
+	recipe := LoadRecipeConfig("testdata/atomic.yml")
 	recipe.Dump()
 }

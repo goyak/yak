@@ -1,5 +1,6 @@
 image: golang:alpine
 stages:
+  - lint
   - build
   - test
 
@@ -19,6 +20,14 @@ createcache:
   script:
     - cd /go/src/gitlab.com/${CI_PROJECT_PATH}
     - govendor sync
+
+lint-my-project:
+  stage: lint
+  script:
+    - govendor fmt +local
+    - git diff > /tmp/gitdiff
+    - cat /tmp/gitdiff
+    - test ! -s /tmp/gitdiff
 
 build-my-project:
   stage: build

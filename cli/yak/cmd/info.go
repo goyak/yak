@@ -20,7 +20,7 @@ import (
 )
 
 // infoCmd represents the info command
-var infoCmd = appCmd("info")
+var infoCmd = appCmd(info, "info")
 
 func info(r recipe.IRecipeConfig) {
 	r.Dump()

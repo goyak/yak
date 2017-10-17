@@ -1,6 +1,7 @@
 # Yak/Yakety application kit for DevOps. (WIP)
 
 Refer detail information from wiki. https://gitlab.com/EasyStack/yakety/wikis
+Or quick overview slide: https://gitpitch.com/Easystack/yakety/master?grs=gitlab
 
 ## How to build
 

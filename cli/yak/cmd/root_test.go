@@ -4,15 +4,10 @@ import (
 	"os"
 	"testing"
 
-	. "gopkg.in/check.v1"
+	"github.com/stretchr/testify/assert"
 )
 
 // Hook up gocheck into the "go test" runner.
-func Test(t *testing.T) { TestingT(t) }
-
-type YakSuite struct{}
-
-var _ = Suite(&YakSuite{})
 
 func mockArgs(args ...string) (restore func()) {
 	old := os.Args
@@ -20,10 +15,13 @@ func mockArgs(args ...string) (restore func()) {
 	return func() { os.Args = old }
 }
 
-func (s *YakSuite) TestUnknownCommentErrorResult(c *C) {
+func TestUnknownCommentErrorResult(t *testing.T) {
 	restore := mockArgs("yak", "foo")
 	defer restore()
 
 	err := RootCmd.Execute()
-	c.Assert(err, ErrorMatches, `unknown command \"foo\" for \"yak\"`)
+	// assert.Equal(t, ErrorMatches, `unknown command \"foo\" for \"yak\"`)
+	assert.Regexp(t, `unknown command \"foo\" for \"yak\"`, err.Error())
+
+	// c.Assert(err, ErrorMatches, `unknown command \"foo\" for \"yak\"`)
 }

@@ -42,7 +42,7 @@ func TestRecipeConfig(t *testing.T) {
 	assert.Equal(t, rc.Name, "core")
 }
 
-func TestRecipeConfigDump(t *testing.T) {
+func TestLoadRecipeConfig(t *testing.T) {
 	r := LoadRecipeConfig("testdata/atomic.yml")
 
 	assert.IsType(t, new(IRecipeConfig), &r)

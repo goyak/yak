@@ -1,25 +1,26 @@
 image: golang:alpine
+
+
+variables:
+  REPO_NAME: gitlab.com/EasyStack/yakety
+
 stages:
   - lint
   - build
   - test
 
 before_script:
+  - go version
+  - echo $CI_BUILD_REF
+  - echo $CI_PROJECT_DIR
+  - mkdir -p $GOPATH/src/$REPO_NAME
+  - rm -rf $GOPATH/src/$REPO_NAME
+  - ln -s $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
   - apk add --no-cache git
   - ln -s /builds /go/src/gitlab.com
   - go get -u github.com/kardianos/govendor
-  - cd /go/src/gitlab.com/${CI_PROJECT_PATH}
-  - govendor sync
+  - cd $GOPATH/src/$REPO_NAME
 
-createcache:
-  type: build
-  cache:
-    untracked: true
-    paths:
-      - /go/src/
-  script:
-    - cd /go/src/gitlab.com/${CI_PROJECT_PATH}
-    - govendor sync
 
 lint-my-project:
   stage: lint
@@ -32,9 +33,11 @@ lint-my-project:
 build-my-project:
   stage: build
   script:
+    - govendor sync
     - govendor build +local
 
 test-my-project:
   stage: test
   script:
+    - govendor sync
     - govendor test +local

@@ -32,7 +32,7 @@ clean: ##@build remote build result
 
 test: ARGS?=-v
 test: ##@source test
-	@govendor test +local
+	@govendor test -v +local
 
 fmt: ARGS?=$(SOURCE_REPO)/...
 fmt: ##@source fmt

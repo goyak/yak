@@ -5,6 +5,26 @@ Refer detail information from wiki. https://gitlab.com/EasyStack/yakety/wikis
 ## How to build
 
 ```
+ # install golang
+ $ sudo yum install golang
+ # set GOPATH
+ # echo "export GOPATH=$HOME/go" >> $HOME/.bashrc
+ $ export GOPATH=$HOME/go
+
+ # clone yak
+ $ mkdir -p $GOPATH/src/gitlab.com/EasyStack/
+ $ cd $GOPATH/src/gitlab.com/EasyStack/
+ $ git clone git@gitlab.com:EasyStack/yakety
+
+ # get govendor
+
+ $ go get -u github.com/kardianos/govendor
+
+ # sync
+
+ $ govendor sync
+
+ # build yak
  $ make build
 ```
 

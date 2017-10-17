@@ -1,10 +1,10 @@
 package recipe
 
 import (
-	"fmt"
 	"log"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"gopkg.in/yaml.v2"
 )
 
@@ -17,7 +17,6 @@ version: '1.0'
 backend: ostree
 source: http://mirror.centos.org/centos/7/atomic/x86_64/repo
 branch: centos-atomic-host/7/x86_64/standard
-backend: ostree
 hash: 173278f2ccba80c5cdda4b9530e6f0388177fb6d27083dec9d61bbe40e22e064
 
 description: |
@@ -31,22 +30,27 @@ config:
 `
 
 func TestRecipeConfig(t *testing.T) {
-	r := RecipeConfig{}
-	err := yaml.Unmarshal([]byte(data), &r)
+	rc := RecipeConfig{}
+	err := yaml.Unmarshal([]byte(data), &rc)
 
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	fmt.Printf("--- t:\n%v\n\n", t)
+
+	assert.IsType(t, new(RecipeConfig), &rc)
+	assert.NotNil(t, rc.Name)
+	assert.Equal(t, rc.Name, "core")
 }
 
 func TestRecipeConfigDump(t *testing.T) {
-	recipe := LoadRecipeConfig("testdata/atomic.yml")
-	recipe.Dump()
+	r := LoadRecipeConfig("testdata/atomic.yml")
+
+	assert.IsType(t, new(IRecipeConfig), &r)
 }
 
 func TestRecipeGetRecipeConfig(t *testing.T) {
 	recipe := LoadRecipeConfig("testdata/atomic.yml")
+
 	cfg := recipe.GetRecipeConfig()
-	fmt.Printf(cfg.Name)
+	assert.Equal(t, cfg.Version, "1.0")
 }

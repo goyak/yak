@@ -16,27 +16,27 @@
 package cmd
 
 import (
+	"fmt"
+
 	"gitlab.com/EasyStack/yakety/lib/recipe"
 )
 
-// infoCmd represents the info command
-var infoCmd = appCmd(info, "info")
+var installCmd = appCmd(install, "install")
 
-func info(r recipe.IRecipeConfig) {
-	r.Dump()
+func install(r recipe.IRecipeConfig) {
+	cfg := r.GetRecipeConfig()
+	fmt.Println("installing " + cfg.Name + "...")
 }
 
 func init() {
-	RootCmd.AddCommand(infoCmd)
-
+	RootCmd.AddCommand(installCmd)
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// infoCmd.PersistentFlags().String("foo", "", "A help for foo")
+	installCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// infoCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
+	installCmd.Flags().BoolP("toggle_abc", "t", false, "Help message for toggle")
 }

@@ -8,7 +8,7 @@ import (
 	"gitlab.com/EasyStack/yakety/lib/recipe"
 )
 
-func appCmd(str string) *cobra.Command {
+func appCmd(fn func(recipe.IRecipeConfig), str string) *cobra.Command {
 	return &cobra.Command{
 		Use:   str + " [app]",
 		Short: "list all installed recipes",
@@ -24,7 +24,7 @@ to quickly create a Cobra application.`,
 			fmt.Println("app: " + args[0])
 			r := recipe.LoadRecipe(args[0])
 			if r != nil {
-				info(r)
+				fn(r)
 			}
 		},
 	}

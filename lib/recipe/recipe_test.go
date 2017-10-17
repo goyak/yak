@@ -44,3 +44,9 @@ func TestRecipeConfigDump(t *testing.T) {
 	recipe := LoadRecipeConfig("testdata/atomic.yml")
 	recipe.Dump()
 }
+
+func TestRecipeGetRecipeConfig(t *testing.T) {
+	recipe := LoadRecipeConfig("testdata/atomic.yml")
+	cfg := recipe.GetRecipeConfig()
+	fmt.Printf(cfg.Name)
+}

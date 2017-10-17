@@ -42,6 +42,7 @@ type BaseRecipeConfig struct {
 }
 
 type IRecipeConfig interface {
+	GetRecipeConfig() RecipeConfig
 	IsInstallable() bool
 	Dump() string
 }
@@ -65,6 +66,10 @@ func LoadRecipeConfig(file string) IRecipeConfig {
 		r.RecipeConfig = config
 		return r
 	}
+}
+
+func (r BaseRecipeConfig) GetRecipeConfig() RecipeConfig {
+	return r.RecipeConfig
 }
 
 func (r BaseRecipeConfig) IsInstallable() bool {

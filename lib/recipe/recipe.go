@@ -32,9 +32,7 @@ type RecipeConfig struct {
 	Branch      string
 	Hash        string
 	Description string
-	Configs     struct {
-		Config map[string]string `yaml:",inline"`
-	} `yaml:"config"`
+	Extra       map[string]string `yaml:",inline"`
 }
 
 type BaseRecipeConfig struct {

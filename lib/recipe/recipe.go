@@ -35,6 +35,13 @@ type RecipeConfig struct {
 	Extra       map[string]string `yaml:",inline"`
 }
 
+func (cfg *RecipeConfig) GetExtra(key string, defaultValue string) string {
+	if _, ok := cfg.Extra[key]; !ok {
+		cfg.Extra[key] = defaultValue
+	}
+	return cfg.Extra[key]
+}
+
 type BaseRecipeConfig struct {
 	RecipeConfig
 }

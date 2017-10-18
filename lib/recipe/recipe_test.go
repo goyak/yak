@@ -53,3 +53,19 @@ func TestRecipeGetRecipeConfig(t *testing.T) {
 	cfg := recipe.GetRecipeConfig()
 	assert.Equal(t, cfg.Version, "1.0")
 }
+
+func TestRecipeConfigGetExtra(t *testing.T) {
+	recipe := LoadRecipeConfig("testdata/atomic.yml")
+
+	cfg := recipe.GetRecipeConfig()
+	val := cfg.GetExtra(`new_item`, `test`)
+	assert.Equal(t, val, "test")
+}
+
+func TestRecipeConfigGetExtraExists(t *testing.T) {
+	recipe := LoadRecipeConfig("testdata/atomic.yml")
+
+	cfg := recipe.GetRecipeConfig()
+	val := cfg.GetExtra(`abc`, `test`)
+	assert.Equal(t, val, "zz")
+}

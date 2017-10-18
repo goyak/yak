@@ -1,6 +1,6 @@
-# Yak/Yakety application kit for DevOps. (WIP)
+# Yakety application keeper
 
-Refer detail information in docs. https://gitlab.com/EasyStack/yakety/wikis
+Refer detail information in docs. https://gitlab.com/EasyStack/yakety/tree/master/docs
 Or quick overview slide: https://gitpitch.com/Easystack/yakety/master?grs=gitlab&p=docs/talks
 
 ## How to build
@@ -26,18 +26,3 @@ Or quick overview slide: https://gitpitch.com/Easystack/yakety/master?grs=gitlab
  # build yak
  $ make build
 ```
-
-## Roadmap
-
- * 实做 local keep single commit
-   - ostree-go
-
-## govendor
-
-Dependencies are handled via `govendor`. Get it via:
-
-    go get -u github.com/kardianos/govendor
-
-And then, run:
-
-    govendor sync

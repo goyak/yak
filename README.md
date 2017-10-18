@@ -13,16 +13,14 @@ Or quick overview slide: https://gitpitch.com/Easystack/yakety/master?grs=gitlab
  $ export GOPATH=$HOME/go
 
  # clone yak
- $ mkdir -p $GOPATH/src/gitlab.com/EasyStack/
- $ cd $GOPATH/src/gitlab.com/EasyStack/
- $ git clone git@gitlab.com:EasyStack/yakety
-
+ $ go get gitlab.com/EasyStack/yakety
  # get govendor
-
  $ go get -u github.com/kardianos/govendor
 
- # sync
+ # switch to yakety dir
+ $ cd $GOPATH/src/gitlab.com/EasyStack/yakety
 
+ # sync
  $ govendor sync
 
  # build yak

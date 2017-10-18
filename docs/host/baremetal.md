@@ -1,0 +1,3 @@
+baremetal
+
+ * QEMU guest

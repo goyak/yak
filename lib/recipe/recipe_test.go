@@ -22,11 +22,9 @@ hash: 173278f2ccba80c5cdda4b9530e6f0388177fb6d27083dec9d61bbe40e22e064
 description: |
   Easystack Container Linux
 
-config:
-  abc: zz
-  abc2: zz
-  abc1: zz
-  abc3: zz
+# extra configs
+xx: cc
+abc: zz
 `
 
 func TestRecipeConfig(t *testing.T) {
@@ -40,6 +38,7 @@ func TestRecipeConfig(t *testing.T) {
 	assert.IsType(t, new(RecipeConfig), &rc)
 	assert.NotNil(t, rc.Name)
 	assert.Equal(t, rc.Name, "core")
+	assert.Equal(t, rc.Extra[`abc`], "zz")
 }
 
 func TestLoadRecipeConfig(t *testing.T) {

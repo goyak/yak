@@ -32,9 +32,7 @@ type RecipeConfig struct {
 	Branch      string
 	Hash        string
 	Description string
-	Configs     struct {
-		Config map[string]string `yaml:",inline"`
-	} `yaml:"config"`
+	Extra       map[string]string `yaml:",inline"`
 }
 
 type BaseRecipeConfig struct {
@@ -59,13 +57,17 @@ func LoadRecipeConfig(file string) IRecipeConfig {
 	}
 	if config.Backend == "atomic" {
 		r := AtomicRecipeConfig{}
-		r.RecipeConfig = config
+		r.init(config)
 		return r
 	} else {
 		r := BaseRecipeConfig{}
-		r.RecipeConfig = config
+		r.init(config)
 		return r
 	}
+}
+
+func (r *BaseRecipeConfig) init(cfg RecipeConfig) {
+	r.RecipeConfig = cfg
 }
 
 func (r BaseRecipeConfig) GetRecipeConfig() RecipeConfig {

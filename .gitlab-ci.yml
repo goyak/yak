@@ -35,6 +35,8 @@ build-my-project:
   script:
     - govendor sync
     - govendor build +local
+  only:
+    - master
 
 test-my-project:
   stage: test

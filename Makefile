@@ -30,9 +30,9 @@ clean: ##@build remote build result
 
 .PHONY: test
 
-test: ARGS?=-v
-test: ##@source test
-	@govendor test -v +local
+test: ARGS?=+local
+test: ##@source to run specific unittests $ ARGS=gitlab.com/EasyStack/yakety/lib/index make test
+	@govendor test -v $(ARGS)
 
 fmt: ARGS?=$(SOURCE_REPO)/...
 fmt: ##@source fmt

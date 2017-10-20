@@ -13,7 +13,7 @@ bin:
 .PHONY: build
 
 build: ARGS?=-x
-build: ##@build build binary
+build: ##@build build binary, $ FORCE=1 make build
 ifdef FORCE
 	@make clean
 endif

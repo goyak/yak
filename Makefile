@@ -18,7 +18,6 @@ ifdef FORCE
 	@make clean
 endif
 	@ARGS=$(ARGS) make $(YAK) $(YAKD)
-
 $(YAK):
 	@go build -o $(YAK) $(ARGS) $(SOURCE_REPO)/cli/yak
 $(YAKD):
@@ -27,6 +26,13 @@ $(YAKD):
 .PHONY: clean
 clean: ##@build remote build result
 	@rm -rf bin
+
+install: ##@build install binary into GOPATH/bin
+	@govendor install -v +local
+
+install_clean: ##@build remove installed binary
+	rm $(GOPATH)/bin/yak
+	rm $(GOPATH)/bin/yakd
 
 .PHONY: test
 

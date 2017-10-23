@@ -22,7 +22,7 @@ to quickly create a Cobra application.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println("info Print: " + strings.Join(args, " "))
 			fmt.Println("app: " + args[0])
-			r := recipe.LoadRecipe(args[0])
+			r := recipe.LoadRecipe(YakRoot(), args[0])
 			if r != nil {
 				fn(r)
 			}

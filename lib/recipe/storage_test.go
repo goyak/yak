@@ -7,7 +7,7 @@ import (
 )
 
 func TestLoadRecipe(t *testing.T) {
-	r := LoadRecipe("testdata/foo")
+	r := LoadRecipe(".", "testdata/foo")
 
 	assert.IsType(t, new(IRecipeConfig), &r)
 }

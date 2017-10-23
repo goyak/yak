@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os/exec"
 
 	"gopkg.in/yaml.v2"
 )
@@ -50,6 +51,7 @@ type IRecipeConfig interface {
 	GetRecipeConfig() RecipeConfig
 	IsInstallable() bool
 	Dump() string
+	Fetch(root string) bool
 }
 
 func LoadRecipeConfig(file string) IRecipeConfig {
@@ -75,6 +77,13 @@ func LoadRecipeConfig(file string) IRecipeConfig {
 
 func (r *BaseRecipeConfig) init(cfg RecipeConfig) {
 	r.RecipeConfig = cfg
+}
+
+func (r BaseRecipeConfig) Fetch(root string) bool {
+	cmd := exec.Command("git", "clone", "https://"+r.Name, root+"/recipes/"+r.Name)
+	fmt.Printf("git clone https://%s\n", r.Name)
+	cmd.Run()
+	return true
 }
 
 func (r BaseRecipeConfig) GetRecipeConfig() RecipeConfig {

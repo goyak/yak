@@ -39,7 +39,7 @@ to quickly create a Cobra application.`,
 }
 
 func fetch(repo string, root string) {
-	cmd := exec.Command("git", "clone", "https://"+repo, root+"/"+repo)
+	cmd := exec.Command("git", "clone", "https://"+repo, root+"/recipes/"+repo)
 	cmd.Run()
 	fmt.Printf("git clone https://%s", repo)
 }

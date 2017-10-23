@@ -1,0 +1,13 @@
+remotes:
+  - abc
+  - xxx
+items:
+  -
+    name: github.com/foo/abc
+    repo: abc/bar
+    ref: asdasdas
+    installed: true
+  -
+    name: github.com/foo2/abc2
+    repo: abc2/barx
+    ref: asdasdas

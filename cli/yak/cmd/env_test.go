@@ -9,13 +9,13 @@ import (
 
 func TestYakRoot(t *testing.T) {
 	yakroot := "/tmp/yak"
-	os.Setenv("YAKROOT", yakroot)
+	os.Setenv("YAKPATH", yakroot)
 
 	assert.Equal(t, YakRoot(), yakroot)
 }
 
 func TestYakRootDefault(t *testing.T) {
-	os.Unsetenv("YAKROOT")
+	os.Unsetenv("YAKPATH")
 	os.Setenv("HOME", "/p")
 
 	assert.Equal(t, YakRoot(), "/p/yak")

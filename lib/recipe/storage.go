@@ -14,11 +14,13 @@ func isDir(pth string) (bool, error) {
 	return fi.IsDir(), nil
 }
 
-func LoadRecipe(str string) IRecipeConfig {
-	// if str == dir
-	result, _ := isDir(str)
+func LoadRecipe(yakroot string, repo string) IRecipeConfig {
+	path := yakroot + "/recipes/" + repo
+	result, _ := isDir(path)
 	if result {
-		return LoadRecipeConfig(str + "/" + "yak.yml")
+		return LoadRecipeConfig(path + "/" + "yak.yml")
 	}
-	return nil
+	r := BaseRecipeConfig{}
+	r.Name = repo
+	return r
 }

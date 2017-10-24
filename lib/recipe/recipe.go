@@ -99,7 +99,11 @@ func (r BaseRecipeConfig) Install() bool {
 func (r BaseRecipeConfig) Fetch(root string) bool {
 	cmd := exec.Command("git", "clone", "https://"+r.Name, root+"/recipes/"+r.Name)
 	fmt.Printf("git clone https://%s\n", r.Name)
-	cmd.Run()
+	err := cmd.Run()
+	log.Printf("Command finished with error: %v", err)
+	if err != nil {
+		return false
+	}
 	return true
 }
 

@@ -25,7 +25,8 @@ var installCmd = appCmd(install, "install")
 
 func install(r recipe.IRecipeConfig) {
 	cfg := r.GetRecipeConfig()
-	fmt.Println("installing " + cfg.Name + "...")
+	oo := r.Install()
+	fmt.Printf("installing %s :%t\n", cfg.Name, oo)
 }
 
 func init() {

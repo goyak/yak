@@ -31,7 +31,7 @@ type RecipeConfig struct {
 	Backend     string
 	Source      string
 	Branch      string
-	Hash        string
+	Commit      string
 	Description string
 	Extra       map[string]string `yaml:",inline"`
 }

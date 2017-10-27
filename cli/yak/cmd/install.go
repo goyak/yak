@@ -25,8 +25,12 @@ var installCmd = appCmd(install, "install")
 
 func install(r recipe.IRecipeConfig) {
 	cfg := r.GetRecipeConfig()
-	oo := r.Install()
-	fmt.Printf("installing %s :%t\n", cfg.Name, oo)
+	if r.IsRecipe() {
+		oo := r.Install()
+		fmt.Printf("installing %s :%t\n", cfg.Name, oo)
+	} else {
+		fmt.Printf("need: yak fetch %s\n", cfg.Name)
+	}
 }
 
 func init() {

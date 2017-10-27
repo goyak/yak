@@ -45,9 +45,11 @@ func (cfg *RecipeConfig) GetExtra(key string, defaultValue string) string {
 
 type BaseRecipeConfig struct {
 	RecipeConfig
+	Path string
 }
 
 type IRecipeConfig interface {
+	IsRecipe() bool
 	GetRecipeConfig() RecipeConfig
 	IsInstallable() bool
 	Install() bool
@@ -68,16 +70,26 @@ func LoadRecipeConfig(file string) IRecipeConfig {
 	if config.Backend == "atomic" {
 		r := AtomicRecipeConfig{}
 		r.init(config)
+		r.Path = file
 		return r
 	} else {
 		r := BaseRecipeConfig{}
 		r.init(config)
+		r.Path = file
 		return r
 	}
 }
 
 func (r *BaseRecipeConfig) init(cfg RecipeConfig) {
 	r.RecipeConfig = cfg
+}
+
+func (r BaseRecipeConfig) IsRecipe() bool {
+	if r.Path == "" {
+		return false
+	} else {
+		return true
+	}
 }
 
 func (r BaseRecipeConfig) Install() bool {
@@ -87,7 +99,11 @@ func (r BaseRecipeConfig) Install() bool {
 func (r BaseRecipeConfig) Fetch(root string) bool {
 	cmd := exec.Command("git", "clone", "https://"+r.Name, root+"/recipes/"+r.Name)
 	fmt.Printf("git clone https://%s\n", r.Name)
-	cmd.Run()
+	err := cmd.Run()
+	log.Printf("Command finished with error: %v", err)
+	if err != nil {
+		return false
+	}
 	return true
 }
 

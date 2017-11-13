@@ -6,7 +6,7 @@ version: '1.0'
 backend: atomic
 source: http://mirror.centos.org/centos/7/atomic/x86_64/repo
 branch: centos-atomic-host/7/x86_64/standard
-hash: 173278f2ccba80c5cdda4b9530e6f0388177fb6d27083dec9d61bbe40e22e064
+commit: 173278f2ccba80c5cdda4b9530e6f0388177fb6d27083dec9d61bbe40e22e064
 
 description: |
   Easystack Container Linux

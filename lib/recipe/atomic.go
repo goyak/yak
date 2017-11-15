@@ -23,9 +23,11 @@ type rpmOstreeStatusOutput struct {
 	Transaction interface{}
 }
 
+var execCommand = exec.Command
+
 func getRpmOstreeStatus() rpmOstreeStatusOutput {
 	var status rpmOstreeStatusOutput
-	out, _ := exec.Command("rpm-ostree", "status", "--json").Output()
+	out, _ := execCommand("rpm-ostree", "status", "--json").Output()
 	json.Unmarshal(out, &status)
 	return status
 }

@@ -3,6 +3,7 @@ package recipe
 import (
 	"archive/tar"
 	"compress/gzip"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -13,6 +14,34 @@ import (
 
 type AtomicRecipeConfig struct {
 	BaseRecipeConfig
+}
+
+type rpmOstreeDeployment map[string]interface{}
+
+type rpmOstreeStatusOutput struct {
+	Deployments []rpmOstreeDeployment
+	Transaction interface{}
+}
+
+var execCommand = exec.Command
+
+func getRpmOstreeStatus() rpmOstreeStatusOutput {
+	var status rpmOstreeStatusOutput
+	out, _ := execCommand("rpm-ostree", "status", "--json").Output()
+	json.Unmarshal(out, &status)
+	return status
+}
+
+func getCurrentChecksum() string {
+	status := getRpmOstreeStatus()
+	for _, value := range status.Deployments {
+		x, _ := value[`booted`].(bool)
+		if x {
+			result, _ := value[`base-checksum`].(string)
+			return result[0:6]
+		}
+	}
+	return ""
 }
 
 func addFile(tw *tar.Writer, path string) error {
@@ -59,7 +88,7 @@ func (r AtomicRecipeConfig) IsInstallable() bool {
 
 func createTarGz(name string, files []string) bool {
 	// set up the output file
-	file, err := os.Create(name)
+	file, err := os.Create(name + ".tar.gz")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -101,9 +130,9 @@ func configDiff() []string {
 func (r AtomicRecipeConfig) Install() bool {
 	// backup current local config
 	// ostree admin config-diff
-
+	tarFileName := getCurrentChecksum()
 	files := configDiff()
-	result := createTarGz("abc.tar.gz", files)
+	result := createTarGz(tarFileName, files)
 	if !result {
 		return false
 	}

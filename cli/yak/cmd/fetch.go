@@ -16,13 +16,14 @@
 package cmd
 
 import (
+	"gitlab.com/EasyStack/yakety/lib/env"
 	"gitlab.com/EasyStack/yakety/lib/recipe"
 )
 
 var fetchCmd = appCmd(fetch, "fetch")
 
 func fetch(r recipe.IRecipeConfig) {
-	r.Fetch(YakRoot())
+	r.Fetch(env.YakRoot())
 }
 
 func init() {

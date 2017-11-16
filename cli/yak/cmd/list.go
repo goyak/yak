@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"gitlab.com/EasyStack/yakety/lib/env"
@@ -37,7 +38,8 @@ to quickly create a Cobra application.`,
 	Args: cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
-			idx = index.LoadIndex(env.YakRoot() + "/index/local.yml")
+			path := filepath.Join(env.YakRoot(), env.LocalIndex)
+			idx = index.LoadIndex(path)
 		}
 		for i, app := range idx.Apps {
 			fmt.Printf("app(%d): %v \n", i, app)

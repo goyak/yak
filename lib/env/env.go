@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+const LocalIndex = `index/local.yml`
+
 func YakRoot() string {
 	root := os.Getenv("YAKPATH")
 	if root == "" {

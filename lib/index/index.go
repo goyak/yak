@@ -17,7 +17,7 @@ type RecipeItem struct {
 
 type Index struct {
 	Remotes []string     `yaml:",flow"`
-	Items   []RecipeItem `yaml:",flow"`
+	Apps    []RecipeItem `yaml:",flow"`
 }
 
 func LoadIndex(file string) Index {

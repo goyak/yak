@@ -1,19 +1,17 @@
 package index
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 
+	"gitlab.com/EasyStack/yakety/lib/recipe"
 	"gopkg.in/yaml.v2"
 )
 
 type RecipeItem struct {
-	Repo      string            // github.com/shawn111/abc
-	Recipe    string            // abc/xxx
-	Ref       string            `yaml:",omitempty"`
-	Version   string            `yaml:",omitempty"`
-	Installed bool              `yaml:",omitempty"`
-	Extra     map[string]string `yaml:",inline"`
+	recipe.RecipeConfig `yaml:",inline"`
+	Installed           bool `yaml:",omitempty"`
 }
 
 type Index struct {
@@ -45,4 +43,26 @@ func (index *Index) Save() {
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
+}
+
+func (index *Index) Install(app recipe.RecipeConfig) {
+	appx := RecipeItem{
+		RecipeConfig: app,
+		Installed:    true,
+	}
+	// a = append(a[:i], a[i+1:]...)
+	// index.Apps = remove(index.Apps, appx)
+	apps := index.Apps
+	for i, a := range index.Apps {
+		if a.Repo == app.Repo {
+			if len(index.Apps) > 1 {
+				apps = append(apps[:i], apps[i+1])
+			} else {
+				apps = []RecipeItem{}
+			}
+		}
+	}
+	index.Apps = append(apps, appx)
+	fmt.Printf("%q %v", index.Apps, index.Apps)
+	index.Save()
 }

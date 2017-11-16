@@ -38,9 +38,8 @@ func install(r recipe.IRecipeConfig) {
 	}
 	path := filepath.Join(env.YakRoot(), env.LocalIndex)
 	idx := index.LoadIndex(path)
-	idx.Save()
-	// TODO add list note
-	fmt.Printf("installed %s\n", cfg.Name)
+	idx.Install(cfg)
+	// fmt.Printf("installed %s\n", cfg.Name)
 }
 
 func init() {

@@ -50,19 +50,22 @@ func (index *Index) Install(app recipe.RecipeConfig) {
 		RecipeConfig: app,
 		Installed:    true,
 	}
-	// a = append(a[:i], a[i+1:]...)
-	// index.Apps = remove(index.Apps, appx)
 	apps := index.Apps
-	for i, a := range index.Apps {
+	for i, a := range apps {
 		if a.Repo == app.Repo {
 			if len(index.Apps) > 1 {
-				apps = append(apps[:i], apps[i+1])
+				fmt.Printf("%d %q %v", i, a, a)
+				if (len(index.Apps) - 1) == i {
+					index.Apps = index.Apps[:i]
+				} else {
+					index.Apps = append(index.Apps[:i], index.Apps[i+1])
+				}
 			} else {
-				apps = []RecipeItem{}
+				index.Apps = []RecipeItem{}
 			}
 		}
 	}
-	index.Apps = append(apps, appx)
+	index.Apps = append(index.Apps, appx)
 	fmt.Printf("%q %v", index.Apps, index.Apps)
 	index.Save()
 }

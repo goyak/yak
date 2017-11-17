@@ -6,6 +6,7 @@ import (
 )
 
 const LocalIndex = `index/local.yml`
+const RecipeDir = `recipes`
 
 func YakRoot() string {
 	root := os.Getenv("YAKPATH")

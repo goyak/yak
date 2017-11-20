@@ -26,12 +26,13 @@ import (
 
 type RecipeConfig struct {
 	Name        string `yaml:"name"`
+	Repo        string
 	Summary     string
 	Version     string
 	Backend     string
 	Source      string
 	Branch      string
-	Commit      string
+	Commit      string // Ref
 	Description string
 	Extra       map[string]string `yaml:",inline"`
 }

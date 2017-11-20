@@ -12,7 +12,7 @@ var data = `
 remotes:
   - abc
   - xxx
-items:
+apps:
   -
     name: github.com/foo/abc
     repo: abc/bar

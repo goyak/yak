@@ -5,10 +5,12 @@ import (
 	"compress/gzip"
 	"encoding/json"
 	"fmt"
+	"gitlab.com/EasyStack/yakety/lib/env"
 	"io"
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -86,9 +88,14 @@ func (r AtomicRecipeConfig) IsInstallable() bool {
 	return false
 }
 
-func createTarGz(name string, files []string) bool {
+func (r *AtomicRecipeConfig) createTarGz(name string, files []string) bool {
 	// set up the output file
-	file, err := os.Create(name + ".tar.gz")
+	// $YAKPATH/recipes/<r.Repo>/data
+	// $YAKPATH/recipes/<r.Repo>/plugin
+	path := filepath.Join(env.YakRoot(), env.RecipeDir, r.Repo, "data")
+	os.MkdirAll(path, 0755)
+	path = filepath.Join(path, name+".tar.gz")
+	file, err := os.Create(path)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -132,7 +139,7 @@ func (r AtomicRecipeConfig) Install() bool {
 	// ostree admin config-diff
 	tarFileName := getCurrentChecksum()
 	files := configDiff()
-	result := createTarGz(tarFileName, files)
+	result := r.createTarGz(tarFileName, files)
 	if !result {
 		return false
 	}

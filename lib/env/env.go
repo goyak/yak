@@ -1,9 +1,12 @@
-package cmd
+package env
 
 import (
 	"fmt"
 	"os"
 )
+
+const LocalIndex = `index/local.yml`
+const RecipeDir = `recipes`
 
 func YakRoot() string {
 	root := os.Getenv("YAKPATH")

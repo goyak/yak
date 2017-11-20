@@ -17,7 +17,10 @@ package cmd
 
 import (
 	"fmt"
+	"path/filepath"
 
+	"gitlab.com/EasyStack/yakety/lib/env"
+	"gitlab.com/EasyStack/yakety/lib/index"
 	"gitlab.com/EasyStack/yakety/lib/recipe"
 )
 
@@ -25,12 +28,18 @@ var installCmd = appCmd(install, "install")
 
 func install(r recipe.IRecipeConfig) {
 	cfg := r.GetRecipeConfig()
-	if r.IsRecipe() {
-		oo := r.Install()
-		fmt.Printf("installing %s :%t\n", cfg.Name, oo)
-	} else {
+	if !r.IsRecipe() {
 		fmt.Printf("need: yak fetch %s\n", cfg.Name)
+		return
 	}
+	if !r.Install() {
+		fmt.Printf("install failed %s\n", cfg.Name)
+		return
+	}
+	path := filepath.Join(env.YakRoot(), env.LocalIndex)
+	idx := index.LoadIndex(path)
+	idx.Install(cfg)
+	// fmt.Printf("installed %s\n", cfg.Name)
 }
 
 func init() {

@@ -201,7 +201,8 @@ func TestGetCurrentChecksum(t *testing.T) {
 	execCommand = fakeExecCommand
 	defer func() { execCommand = exec.Command }()
 
-	checksum := getCurrentChecksum()
+	status := getRpmOstreeStatus()
+	checksum := getCurrentChecksum(status)
 
 	if checksum != expected {
 		t.Errorf("Expected %q, got %q", expected, checksum)

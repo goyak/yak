@@ -34,8 +34,7 @@ func getRpmOstreeStatus() rpmOstreeStatusOutput {
 	return status
 }
 
-func getCurrentChecksum() string {
-	status := getRpmOstreeStatus()
+func getCurrentChecksum(status rpmOstreeStatusOutput) string {
 	for _, value := range status.Deployments {
 		x, _ := value[`booted`].(bool)
 		if x {
@@ -137,7 +136,8 @@ func configDiff() []string {
 func (r AtomicRecipeConfig) Install() bool {
 	// backup current local config
 	// ostree admin config-diff
-	tarFileName := getCurrentChecksum()
+	status := getRpmOstreeStatus()
+	tarFileName := getCurrentChecksum(status)
 	files := configDiff()
 	result := r.createTarGz(tarFileName, files)
 	if !result {

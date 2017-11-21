@@ -97,9 +97,12 @@ func (r AtomicRecipeConfig) IsInstallable() bool {
 
 func (r *AtomicRecipeConfig) createTarGz(name string, files []string) bool {
 	// set up the output file
+	// we might share atomic data cross different yak
+	// $YAKPATH/index/atomic
+	// normal recipe data dir
 	// $YAKPATH/recipes/<r.Repo>/data
 	// $YAKPATH/recipes/<r.Repo>/plugin
-	path := filepath.Join(env.YakRoot(), env.RecipeDir, r.Repo, "data")
+	path := filepath.Join(env.YakRoot(), env.IndexDir, "atomic")
 	os.MkdirAll(path, 0755)
 	path = filepath.Join(path, name+".tar.gz")
 	file, err := os.Create(path)

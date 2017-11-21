@@ -34,13 +34,21 @@ func getRpmOstreeStatus() rpmOstreeStatusOutput {
 	return status
 }
 
-func getCurrentChecksum(status rpmOstreeStatusOutput) string {
+func getCurrentDeployment(status rpmOstreeStatusOutput) rpmOstreeDeployment {
 	for _, value := range status.Deployments {
 		x, _ := value[`booted`].(bool)
 		if x {
-			result, _ := value[`base-checksum`].(string)
-			return result[0:6]
+			return value
 		}
+	}
+	return rpmOstreeDeployment{}
+}
+
+func getCurrentChecksum(status rpmOstreeStatusOutput) string {
+	deployment := getCurrentDeployment(status)
+	checksum, _ := deployment[`base-checksum`].(string)
+	if len(checksum) > 0 {
+		return checksum[0:6]
 	}
 	return ""
 }

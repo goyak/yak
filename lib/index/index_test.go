@@ -2,9 +2,11 @@ package index
 
 import (
 	"log"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"gitlab.com/EasyStack/yakety/lib/recipe"
 	"gopkg.in/yaml.v2"
 )
 
@@ -33,11 +35,26 @@ func TestIndex(t *testing.T) {
 	}
 
 	assert.IsType(t, new(Index), &idx)
-	// assert.Equal(t, idx.Remotes[0].Name, "abc")
 }
 
 func TestLoadIdex(t *testing.T) {
 	idx := LoadIndex("testdata/index.yaml")
 
 	assert.IsType(t, new(Index), &idx)
+	assert.Equal(t, idx.Name, "testdata/index.yaml")
+}
+
+func TestInstallApp(t *testing.T) {
+	const file = `/tmp/test_index.yaml`
+	idx := Index{
+		Name: file,
+	}
+	app := recipe.RecipeConfig{
+		Name: "abc",
+	}
+
+	assert.Equal(t, len(idx.Apps), 0)
+	idx.Install(app)
+	assert.Equal(t, len(idx.Apps), 1)
+	os.Remove(file)
 }

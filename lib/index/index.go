@@ -24,24 +24,20 @@ func LoadIndex(file string) Index {
 }
 
 func (index *Index) Install(app recipe.RecipeConfig) {
+	installed := false
 	appx := RecipeItem{
 		RecipeConfig: app,
 		Installed:    true,
 	}
-	apps := index.Apps
-	for i, a := range apps {
-		if a.Repo == app.Repo {
-			if len(index.Apps) > 1 {
-				if (len(index.Apps) - 1) == i {
-					index.Apps = index.Apps[:i]
-				} else {
-					index.Apps = append(index.Apps[:i], index.Apps[i+1])
-				}
-			} else {
-				index.Apps = []RecipeItem{}
-			}
+
+	for idx, _ := range index.Apps {
+		if index.Apps[idx].Repo == app.Repo {
+			index.Apps[idx] = appx
+			installed = true
 		}
 	}
-	index.Apps = append(index.Apps, appx)
+	if !installed {
+		index.Apps = append(index.Apps, appx)
+	}
 	utils.SaveYaml(index.Name, &index)
 }

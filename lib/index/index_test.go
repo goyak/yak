@@ -41,7 +41,7 @@ func TestLoadIdex(t *testing.T) {
 	idx := LoadIndex("testdata/index.yaml")
 
 	assert.IsType(t, new(Index), &idx)
-	assert.Equal(t, idx.Name, "testdata/index.yaml")
+	assert.Equal(t, "testdata/index.yaml", idx.Name)
 }
 
 func TestInstallApp(t *testing.T) {
@@ -53,8 +53,65 @@ func TestInstallApp(t *testing.T) {
 		Name: "abc",
 	}
 
-	assert.Equal(t, len(idx.Apps), 0)
+	assert.Equal(t, 0, len(idx.Apps))
 	idx.Install(app)
-	assert.Equal(t, len(idx.Apps), 1)
+	assert.Equal(t, 1, len(idx.Apps))
+	os.Remove(file)
+}
+
+func TestUpgradeApp(t *testing.T) {
+	const file = `/tmp/test_index.yaml`
+	idx := Index{
+		Name: file,
+	}
+	idx.Install(recipe.RecipeConfig{
+		Name:    "abc",
+		Version: "1.0",
+		Repo:    "ss/abc",
+	})
+	assert.Equal(t, 1, len(idx.Apps))
+	assert.Equal(t, "1.0", idx.Apps[0].Version)
+
+	idx.Install(recipe.RecipeConfig{
+		Name:    "abc",
+		Version: "2.0",
+		Repo:    "ss/abc",
+	})
+	assert.Equal(t, 1, len(idx.Apps))
+	assert.Equal(t, "2.0", idx.Apps[0].Version)
+
+	idx.Install(recipe.RecipeConfig{
+		Name:    "foo",
+		Version: "2.0",
+		Repo:    "ss/foo",
+	})
+	idx.Install(recipe.RecipeConfig{
+		Name:    "bar",
+		Version: "1.0",
+		Repo:    "ss/bar",
+	})
+	assert.Equal(t, 3, len(idx.Apps))
+
+	idx.Install(recipe.RecipeConfig{
+		Name:    "abc",
+		Version: "2.1",
+		Repo:    "ss/abc",
+	})
+
+	assert.Equal(t, 3, len(idx.Apps))
+
+	idx.Install(recipe.RecipeConfig{
+		Name:    "foo",
+		Version: "2.1",
+		Repo:    "ss/foo",
+	})
+	assert.Equal(t, 3, len(idx.Apps))
+	idx.Install(recipe.RecipeConfig{
+		Name:    "bar",
+		Version: "2.1",
+		Repo:    "ss/bar",
+	})
+	assert.Equal(t, 3, len(idx.Apps))
+
 	os.Remove(file)
 }

@@ -5,13 +5,16 @@ import (
 	"compress/gzip"
 	"encoding/json"
 	"fmt"
-	"gitlab.com/EasyStack/yakety/lib/env"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"gitlab.com/EasyStack/yakety/lib/env"
+	"gopkg.in/yaml.v2"
 )
 
 type AtomicRecipeConfig struct {
@@ -23,6 +26,13 @@ type rpmOstreeDeployment map[string]interface{}
 type rpmOstreeStatusOutput struct {
 	Deployments []rpmOstreeDeployment
 	Transaction interface{}
+}
+
+type backup struct {
+	Version string
+	Source  string
+	Branch  string
+	Commit  string
 }
 
 var execCommand = exec.Command
@@ -154,6 +164,18 @@ func (r AtomicRecipeConfig) Install() bool {
 	if !result {
 		return false
 	}
+	b := backup{
+		Version: "abc",
+		Source:  "xxx",
+		Branch:  "xxx111111111111",
+		Commit:  "xsqdas1",
+	}
+	var xx []backup
+	xx = append(xx, b)
+	data, _ := yaml.Marshal(&xx)
+
+	file := filepath.Join(env.YakRoot(), env.IndexDir, "atomic", "backup.yml")
+	ioutil.WriteFile(file, data, 0644)
 
 	remoteName := strings.Split(r.Branch, "/")[0]
 	fmt.Printf(">>> install : n:%s s:%s c:%s \n", r.Name, r.Source, r.Commit)

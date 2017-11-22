@@ -37,11 +37,12 @@ func TestIndex(t *testing.T) {
 	assert.IsType(t, new(Index), &idx)
 }
 
-func TestLoadIdex(t *testing.T) {
+func TestLoadIndex(t *testing.T) {
 	idx := LoadIndex("testdata/index.yaml")
 
 	assert.IsType(t, new(Index), &idx)
 	assert.Equal(t, "testdata/index.yaml", idx.Name)
+	assert.Equal(t, 2, len(idx.Apps))
 }
 
 func TestInstallApp(t *testing.T) {

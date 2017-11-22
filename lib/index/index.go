@@ -1,8 +1,12 @@
 package index
 
 import (
+	"fmt"
+	"io/ioutil"
+
 	"gitlab.com/EasyStack/yakety/lib/recipe"
 	"gitlab.com/EasyStack/yakety/lib/utils"
+	"gopkg.in/yaml.v2"
 )
 
 type RecipeItem struct {
@@ -17,10 +21,19 @@ type Index struct {
 }
 
 func LoadIndex(file string) Index {
-	var index Index
-	utils.LoadYaml(file, &index)
-	index.Name = file
-	return index
+	var out Index
+	data, err := ioutil.ReadFile(file)
+	if err != nil {
+		fmt.Printf("load file: %s\n", file)
+		panic(err)
+	}
+	err = yaml.Unmarshal([]byte(data), &out)
+	if err != nil {
+		fmt.Printf("load file: %s\n", file)
+		panic(err)
+	}
+	out.Name = file
+	return out
 }
 
 func (index *Index) Install(app recipe.RecipeConfig) {

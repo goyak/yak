@@ -3,10 +3,8 @@ package recipe
 import (
 	"archive/tar"
 	"compress/gzip"
-	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -14,53 +12,45 @@ import (
 	"strings"
 
 	"gitlab.com/EasyStack/yakety/lib/env"
-	"gopkg.in/yaml.v2"
 )
 
 type AtomicRecipeConfig struct {
 	BaseRecipeConfig
 }
 
-type rpmOstreeDeployment map[string]interface{}
-
-type rpmOstreeStatusOutput struct {
-	Deployments []rpmOstreeDeployment
-	Transaction interface{}
+func (r AtomicRecipeConfig) IsInstallable() bool {
+	return false
 }
 
-type backup struct {
-	Version string
-	Source  string
-	Branch  string
-	Commit  string
-}
+func (r *AtomicRecipeConfig) createTarGz(name string, files []string) bool {
+	// set up the output file
+	// we might share atomic data cross different yak
+	// $YAKPATH/index/atomic
+	// normal recipe data dir
+	// $YAKPATH/recipes/<r.Repo>/data
+	// $YAKPATH/recipes/<r.Repo>/plugin
+	path := filepath.Join(env.YakRoot(), env.IndexDir, "atomic")
+	os.MkdirAll(path, 0755)
+	path = filepath.Join(path, name+".tar.gz")
+	file, err := os.Create(path)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer file.Close()
+	// set up the gzip writer
+	gw := gzip.NewWriter(file)
+	defer gw.Close()
+	tw := tar.NewWriter(gw)
+	defer tw.Close()
+	// grab the paths that need to be added in
 
-var execCommand = exec.Command
-
-func getRpmOstreeStatus() rpmOstreeStatusOutput {
-	var status rpmOstreeStatusOutput
-	out, _ := execCommand("rpm-ostree", "status", "--json").Output()
-	json.Unmarshal(out, &status)
-	return status
-}
-
-func getCurrentDeployment(status rpmOstreeStatusOutput) rpmOstreeDeployment {
-	for _, value := range status.Deployments {
-		x, _ := value[`booted`].(bool)
-		if x {
-			return value
+	for _, i := range files {
+		if err := addFile(tw, i); err != nil {
+			log.Fatalln(err)
+			return false
 		}
 	}
-	return rpmOstreeDeployment{}
-}
-
-func getCurrentChecksum(status rpmOstreeStatusOutput) string {
-	deployment := getCurrentDeployment(status)
-	checksum, _ := deployment[`base-checksum`].(string)
-	if len(checksum) > 0 {
-		return checksum[0:6]
-	}
-	return ""
+	return true
 }
 
 func addFile(tw *tar.Writer, path string) error {
@@ -101,41 +91,6 @@ func addFile(tw *tar.Writer, path string) error {
 	return nil
 }
 
-func (r AtomicRecipeConfig) IsInstallable() bool {
-	return false
-}
-
-func (r *AtomicRecipeConfig) createTarGz(name string, files []string) bool {
-	// set up the output file
-	// we might share atomic data cross different yak
-	// $YAKPATH/index/atomic
-	// normal recipe data dir
-	// $YAKPATH/recipes/<r.Repo>/data
-	// $YAKPATH/recipes/<r.Repo>/plugin
-	path := filepath.Join(env.YakRoot(), env.IndexDir, "atomic")
-	os.MkdirAll(path, 0755)
-	path = filepath.Join(path, name+".tar.gz")
-	file, err := os.Create(path)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	defer file.Close()
-	// set up the gzip writer
-	gw := gzip.NewWriter(file)
-	defer gw.Close()
-	tw := tar.NewWriter(gw)
-	defer tw.Close()
-	// grab the paths that need to be added in
-
-	for _, i := range files {
-		if err := addFile(tw, i); err != nil {
-			log.Fatalln(err)
-			return false
-		}
-	}
-	return true
-}
-
 func configDiff() []string {
 	out, err := exec.Command("ostree", "admin", "config-diff").Output()
 	if err != nil {
@@ -143,7 +98,6 @@ func configDiff() []string {
 		log.Fatal(err)
 
 	}
-	// fmt.Printf("The date is %s\n", out)
 	data := fmt.Sprintf("%s", out)
 	result := strings.Split(strings.TrimSpace(data), "\n")
 
@@ -158,24 +112,18 @@ func (r AtomicRecipeConfig) Install() bool {
 	// backup current local config
 	// ostree admin config-diff
 	status := getRpmOstreeStatus()
-	tarFileName := getCurrentChecksum(status)
+	deployment := getCurrentDeployment(status)
+	fmt.Printf("x deployment: %q %v \n", deployment, deployment)
+	fmt.Printf("==>>> %s %v \n\n", deployment.Commit)
+	tarFileName := deployment.Checksum[0:6]
 	files := configDiff()
 	result := r.createTarGz(tarFileName, files)
 	if !result {
 		return false
 	}
-	b := backup{
-		Version: "abc",
-		Source:  "xxx",
-		Branch:  "xxx111111111111",
-		Commit:  "xsqdas1",
-	}
-	var xx []backup
-	xx = append(xx, b)
-	data, _ := yaml.Marshal(&xx)
 
 	file := filepath.Join(env.YakRoot(), env.IndexDir, "atomic", "backup.yml")
-	ioutil.WriteFile(file, data, 0644)
+	deployment.backupDeployment.updateBackup(file)
 
 	remoteName := strings.Split(r.Branch, "/")[0]
 	fmt.Printf(">>> install : n:%s s:%s c:%s \n", r.Name, r.Source, r.Commit)

@@ -196,19 +196,6 @@ const fakeRunResult = `{
     "transaction": null
 }`
 
-func TestGetCurrentChecksum(t *testing.T) {
-	expected := "aa467c"
-	execCommand = fakeExecCommand
-	defer func() { execCommand = exec.Command }()
-
-	status := getRpmOstreeStatus()
-	checksum := getCurrentChecksum(status)
-
-	if checksum != expected {
-		t.Errorf("Expected %q, got %q", expected, checksum)
-	}
-}
-
 func TestAtomicRecipeConfig(t *testing.T) {
 	recipe := LoadRecipeConfig("testdata/atomic.yml")
 	recipeType := fmt.Sprintf("%T", recipe)

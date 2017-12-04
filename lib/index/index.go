@@ -3,9 +3,9 @@ package index
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 
 	"gitlab.com/EasyStack/yakety/lib/recipe"
+	"gitlab.com/EasyStack/yakety/lib/utils"
 	"gopkg.in/yaml.v2"
 )
 
@@ -21,51 +21,36 @@ type Index struct {
 }
 
 func LoadIndex(file string) Index {
-	index := Index{}
-	index.Name = file
+	var out Index
 	data, err := ioutil.ReadFile(file)
 	if err != nil {
+		fmt.Printf("load file: %s\n", file)
 		panic(err)
 	}
-	err = yaml.Unmarshal([]byte(data), &index)
+	err = yaml.Unmarshal([]byte(data), &out)
 	if err != nil {
+		fmt.Printf("load file: %s\n", file)
 		panic(err)
 	}
-	return index
-}
-
-func (index *Index) Save() {
-	d, err := yaml.Marshal(&index)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-	err = ioutil.WriteFile(index.Name, d, 0644)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
+	out.Name = file
+	return out
 }
 
 func (index *Index) Install(app recipe.RecipeConfig) {
+	installed := false
 	appx := RecipeItem{
 		RecipeConfig: app,
 		Installed:    true,
 	}
-	apps := index.Apps
-	for i, a := range apps {
-		if a.Repo == app.Repo {
-			if len(index.Apps) > 1 {
-				fmt.Printf("%d %q %v", i, a, a)
-				if (len(index.Apps) - 1) == i {
-					index.Apps = index.Apps[:i]
-				} else {
-					index.Apps = append(index.Apps[:i], index.Apps[i+1])
-				}
-			} else {
-				index.Apps = []RecipeItem{}
-			}
+
+	for idx, _ := range index.Apps {
+		if index.Apps[idx].Repo == app.Repo {
+			index.Apps[idx] = appx
+			installed = true
 		}
 	}
-	index.Apps = append(index.Apps, appx)
-	fmt.Printf("%q %v", index.Apps, index.Apps)
-	index.Save()
+	if !installed {
+		index.Apps = append(index.Apps, appx)
+	}
+	utils.SaveYaml(index.Name, &index)
 }

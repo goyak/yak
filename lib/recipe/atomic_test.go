@@ -20,11 +20,11 @@ func TestHelperProcess(t *testing.T) {
 		return
 	}
 	// some code here to check arguments perhaps?
-	fmt.Fprintf(os.Stdout, dockerRunResult)
+	fmt.Fprintf(os.Stdout, fakeRunResult)
 	os.Exit(0)
 }
 
-const dockerRunResult = `{
+const fakeRunResult = `{
     "deployments": [
         {
             "base-checksum": "aa467cfa26d8c9914275c692219ec018c1f31dfc036b1bf4fa1d3ab227a2a8d0",
@@ -195,18 +195,6 @@ const dockerRunResult = `{
     ],
     "transaction": null
 }`
-
-func TestGetCurrentChecksum(t *testing.T) {
-	expected := "aa467c"
-	execCommand = fakeExecCommand
-	defer func() { execCommand = exec.Command }()
-
-	checksum := getCurrentChecksum()
-
-	if checksum != expected {
-		t.Errorf("Expected %q, got %q", expected, checksum)
-	}
-}
 
 func TestAtomicRecipeConfig(t *testing.T) {
 	recipe := LoadRecipeConfig("testdata/atomic.yml")

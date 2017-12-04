@@ -20,7 +20,7 @@ import (
 	// "path/filepath"
 
 	"github.com/spf13/cobra"
-	// "gitlab.com/EasyStack/yakety/lib/env"
+	"gitlab.com/EasyStack/yakety/lib/host/ostree"
 	// "gitlab.com/EasyStack/yakety/lib/index"
 )
 
@@ -42,5 +42,7 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	RootCmd.AddCommand(rollbackCmd)
+	if ostree.IsOstreeHost() {
+		RootCmd.AddCommand(rollbackCmd)
+	}
 }

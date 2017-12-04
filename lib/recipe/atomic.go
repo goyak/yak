@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"gitlab.com/EasyStack/yakety/lib/env"
+	"gitlab.com/EasyStack/yakety/lib/host/ostree"
 )
 
 type AtomicRecipeConfig struct {
@@ -19,7 +20,7 @@ type AtomicRecipeConfig struct {
 }
 
 func (r AtomicRecipeConfig) IsInstallable() bool {
-	return false
+	return ostree.IsOstreeHost()
 }
 
 func (r *AtomicRecipeConfig) createTarGz(name string, files []string) bool {

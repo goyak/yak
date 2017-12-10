@@ -23,6 +23,12 @@ func (r AtomicRecipeConfig) IsInstallable() bool {
 	return ostree.IsOstreeHost()
 }
 
+func (r *AtomicRecipeConfig) BackupPath() string {
+	path := filepath.Join(env.YakRoot(), env.DataDir, "atomic")
+	os.MkdirAll(path, 0755)
+	return path
+}
+
 func (r *AtomicRecipeConfig) createTarGz(name string, files []string) bool {
 	// set up the output file
 	// we might share atomic data cross different yak
@@ -30,9 +36,7 @@ func (r *AtomicRecipeConfig) createTarGz(name string, files []string) bool {
 	// normal recipe data dir
 	// $YAKPATH/recipes/<r.Repo>/data
 	// $YAKPATH/recipes/<r.Repo>/plugin
-	path := filepath.Join(env.YakRoot(), env.IndexDir, "atomic")
-	os.MkdirAll(path, 0755)
-	path = filepath.Join(path, name+".tar.gz")
+	path := filepath.Join(r.BackupPath(), name+".tar.gz")
 	file, err := os.Create(path)
 	if err != nil {
 		log.Fatalln(err)
@@ -114,8 +118,6 @@ func (r AtomicRecipeConfig) Install() bool {
 	// ostree admin config-diff
 	status := getRpmOstreeStatus()
 	deployment := getCurrentDeployment(status)
-	fmt.Printf("x deployment: %q %v \n", deployment, deployment)
-	fmt.Printf("==>>> %s %v \n\n", deployment.Commit)
 	tarFileName := deployment.Checksum[0:6]
 	files := configDiff()
 	result := r.createTarGz(tarFileName, files)
@@ -127,8 +129,6 @@ func (r AtomicRecipeConfig) Install() bool {
 	deployment.backupDeployment.updateBackup(file)
 
 	remoteName := strings.Split(r.Branch, "/")[0]
-	fmt.Printf(">>> install : n:%s s:%s c:%s \n", r.Name, r.Source, r.Commit)
-	// ostree remote add --if-not-exists --no-gpg-verify fedora-atomic-26 https://kojipkgs.fedoraproject.org/atomic/26
 	addRemoteCmd := exec.Command("ostree", "remote", "add", "--if-not-exists", "--no-gpg-verify", remoteName, r.Source)
 	fmt.Printf("::: %s  %q \n", addRemoteCmd.Path, addRemoteCmd.Args)
 	// addRemoteCmd.Run()
@@ -140,7 +140,7 @@ func (r AtomicRecipeConfig) Install() bool {
 	// ostree admin deploy d518b37c348eb814093249f035ae852e7723840521b4bcb4a271a80b5988c44a
 	// rpm-ostree deploy 173278f2ccba80c5cdda4b9530e6f0388177fb6d27083
 
-	cmd := exec.Command("ostree", "admin", "deploy", r.Commit)
+	cmd := exec.Command("rpm-ostree", "deploy", r.Commit)
 	cmd.Run()
 	fmt.Printf("::: %s  %q \n", cmd.Path, cmd.Args)
 

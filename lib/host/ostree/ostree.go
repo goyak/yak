@@ -29,7 +29,7 @@ func IsOstreeHost() bool {
 	if err == nil {
 		return true
 	} else {
-		log.Fatalf("error: %s", error.HOST_NOT_SUPPORT)
+		log.Println(error.HOST_NOT_SUPPORT)
 		return false
 	}
 }

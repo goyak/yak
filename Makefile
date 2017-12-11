@@ -38,7 +38,7 @@ install_clean: ##@build remove installed binary
 
 test: ARGS?=+local
 test: ##@source to run specific unittests $ ARGS="gitlab.com/EasyStack/yakety/lib/index -v" make test
-	@govendor test --cover $(ARGS)
+	@govendor test --cover -v $(ARGS)
 
 fmt: ARGS?=$(SOURCE_REPO)/...
 fmt: ##@source fmt

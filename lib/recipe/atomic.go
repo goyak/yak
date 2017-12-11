@@ -29,6 +29,11 @@ func (r *AtomicRecipeConfig) BackupPath() string {
 	return path
 }
 
+func (r *AtomicRecipeConfig) backupIndexFile() string {
+	file := filepath.Join(r.BackupPath(), "backup.yml")
+	return file
+}
+
 func (r *AtomicRecipeConfig) createTarGz(name string, files []string) bool {
 	// set up the output file
 	// we might share atomic data cross different yak
@@ -125,7 +130,7 @@ func (r AtomicRecipeConfig) Install() bool {
 		return false
 	}
 
-	file := filepath.Join(env.YakRoot(), env.IndexDir, "atomic", "backup.yml")
+	file := r.backupIndexFile()
 	deployment.backupDeployment.updateBackup(file)
 
 	remoteName := strings.Split(r.Branch, "/")[0]

@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"path/filepath"
 
 	"gitlab.com/EasyStack/yakety/lib/env"
@@ -30,6 +31,10 @@ func install(r recipe.IRecipeConfig) {
 	cfg := r.GetRecipeConfig()
 	if !r.IsRecipe() {
 		fmt.Printf("need: yak fetch %s\n", cfg.Name)
+		return
+	}
+	if !r.IsInstallable() {
+		log.Fatalf("cannot install: %s\n", cfg.Name)
 		return
 	}
 	if !r.Install() {

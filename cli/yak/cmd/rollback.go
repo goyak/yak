@@ -25,6 +25,8 @@ import (
 )
 
 // listCmd represents the list command
+var doList bool
+
 //var idx index.Index
 var rollbackCmd = &cobra.Command{
 	Use:   "rollback",
@@ -35,9 +37,18 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Args: cobra.MinimumNArgs(0),
+	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("rollback called %d \n", len(args))
+		fmt.Printf("rollback called %d, %v\n", len(args), doList)
+		if doList {
+			fmt.Printf("prepare backlist\n")
+			return
+		}
+		if len(args) > 0 {
+			fmt.Printf("do backup: <%s>\n", args[0])
+			return
+		}
+		fmt.Printf("do latest backup\n")
 	},
 }
 
@@ -45,4 +56,5 @@ func init() {
 	if ostree.IsOstreeHost() {
 		RootCmd.AddCommand(rollbackCmd)
 	}
+	rollbackCmd.Flags().BoolVarP(&doList, "list", "l", false, "List rollback items")
 }

@@ -130,8 +130,7 @@ func (r AtomicRecipeConfig) Install() bool {
 		return false
 	}
 
-	file := r.backupIndexFile()
-	deployment.backupDeployment.updateBackup(file)
+	r.updateBackupList(deployment.backupDeployment)
 
 	remoteName := strings.Split(r.Branch, "/")[0]
 	addRemoteCmd := exec.Command("ostree", "remote", "add", "--if-not-exists", "--no-gpg-verify", remoteName, r.Source)

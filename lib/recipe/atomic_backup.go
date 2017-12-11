@@ -47,7 +47,34 @@ func getCurrentDeployment(status rpmOstreeStatusOutput) rpmOstreeDeployment {
 	return rpmOstreeDeployment{}
 }
 
+func (r *AtomicRecipeConfig) getBackupList() []backupDeployment {
+	var result []backupDeployment
+	file := r.backupIndexFile()
+	data, _ := ioutil.ReadFile(file)
+	yaml.Unmarshal([]byte(data), &result)
+	return result
+}
+
+func (r *AtomicRecipeConfig) updateBackupList(b backupDeployment) []backupDeployment {
+	file := r.backupIndexFile()
+	result := r.getBackupList()
+	new_item := true
+	for _, v := range result {
+		if v.Checksum == b.Checksum {
+			new_item = false
+		}
+	}
+	if new_item {
+		result = append(result, b)
+
+		data, _ := yaml.Marshal(&result)
+		ioutil.WriteFile(file, data, 0644)
+	}
+	return result
+}
+
 func (b backupDeployment) updateBackup(file string) []backupDeployment {
+
 	var result []backupDeployment
 
 	data, _ := ioutil.ReadFile(file)

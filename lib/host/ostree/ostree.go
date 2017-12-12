@@ -20,7 +20,6 @@ import (
 	"compress/gzip"
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -32,6 +31,7 @@ import (
 
 	"gitlab.com/EasyStack/yakety/lib/env"
 	"gitlab.com/EasyStack/yakety/lib/errors"
+	"gitlab.com/EasyStack/yakety/lib/utils"
 )
 
 type backupDeployment struct {
@@ -75,44 +75,6 @@ func BackupIndexFile() string {
 	return file
 }
 
-func addFile(tw *tar.Writer, path string) error {
-	fmt.Printf("prepare: %s.\n", path)
-	file, err := os.Open(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	if stat, err := file.Stat(); err == nil {
-		// now lets create the header as needed for this file within the tarball
-		header := new(tar.Header)
-		header.Name = path
-		if !stat.IsDir() {
-			header.Size = stat.Size()
-			header.ModTime = stat.ModTime()
-			header.Mode = int64(stat.Mode())
-		}
-
-		if err := tw.WriteHeader(header); err != nil {
-			fmt.Printf(" >> n: %s \n", header.Name)
-			fmt.Printf(" >> size: %d \n", header.Size)
-			fmt.Printf(" >> m: %d \n", header.Mode)
-			fmt.Printf(" >> err: %s \n", err)
-			return err
-		}
-
-		if !stat.IsDir() {
-			// write the header to the tarball archive
-			// copy the file data to the tarball
-			fmt.Printf("copying %s ... m: %d\n", path, header.Mode)
-			if _, err := io.Copy(tw, file); err != nil {
-				return err
-			}
-			fmt.Printf("copied %s.\n", path)
-		}
-	}
-	return nil
-}
-
 func configDiff() []string {
 	out, err := exec.Command("ostree", "admin", "config-diff").Output()
 	if err != nil {
@@ -149,7 +111,7 @@ func CreateDiffTarGz() bool {
 	// grab the paths that need to be added in
 
 	for _, i := range files {
-		if err := addFile(tw, i); err != nil {
+		if err := utils.AddTarFile(tw, i); err != nil {
 			log.Fatalln(err)
 			return false
 		}

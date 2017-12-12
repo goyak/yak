@@ -16,11 +16,41 @@
 package ostree
 
 import (
+	"archive/tar"
+	"compress/gzip"
+	"encoding/json"
+	"fmt"
+	"io"
+	"io/ioutil"
 	"log"
+	"os"
 	"os/exec"
+	"path/filepath"
+	"strings"
 
-	"gitlab.com/EasyStack/yakety/lib/error"
+	"gopkg.in/yaml.v2"
+
+	"gitlab.com/EasyStack/yakety/lib/env"
+	"gitlab.com/EasyStack/yakety/lib/errors"
 )
+
+type backupDeployment struct {
+	Version   string
+	Origin    string
+	Osname    string
+	Commit    string `json:"base-checksum"`
+	Checksum  string
+	Timestamp uint64 `json:"timestamp"`
+}
+type rpmOstreeDeployment struct {
+	backupDeployment
+	Booted bool
+}
+
+type rpmOstreeStatusOutput struct {
+	Deployments []rpmOstreeDeployment
+	Transaction interface{}
+}
 
 var execCommand = exec.Command
 
@@ -29,7 +59,155 @@ func IsOstreeHost() bool {
 	if err == nil {
 		return true
 	} else {
-		log.Println(error.HOST_NOT_SUPPORT)
+		log.Println(errors.HOST_NOT_SUPPORT)
 		return false
+	}
+}
+
+func BackupPath() string {
+	path := filepath.Join(env.YakRoot(), env.DataDir, "atomic")
+	os.MkdirAll(path, 0755)
+	return path
+}
+
+func BackupIndexFile() string {
+	file := filepath.Join(BackupPath(), "backup.yml")
+	return file
+}
+
+func addFile(tw *tar.Writer, path string) error {
+	fmt.Printf("prepare: %s.\n", path)
+	file, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	if stat, err := file.Stat(); err == nil {
+		// now lets create the header as needed for this file within the tarball
+		header := new(tar.Header)
+		header.Name = path
+		if !stat.IsDir() {
+			header.Size = stat.Size()
+			header.ModTime = stat.ModTime()
+			header.Mode = int64(stat.Mode())
+		}
+
+		if err := tw.WriteHeader(header); err != nil {
+			fmt.Printf(" >> n: %s \n", header.Name)
+			fmt.Printf(" >> size: %d \n", header.Size)
+			fmt.Printf(" >> m: %d \n", header.Mode)
+			fmt.Printf(" >> err: %s \n", err)
+			return err
+		}
+
+		if !stat.IsDir() {
+			// write the header to the tarball archive
+			// copy the file data to the tarball
+			fmt.Printf("copying %s ... m: %d\n", path, header.Mode)
+			if _, err := io.Copy(tw, file); err != nil {
+				return err
+			}
+			fmt.Printf("copied %s.\n", path)
+		}
+	}
+	return nil
+}
+
+func configDiff() []string {
+	out, err := exec.Command("ostree", "admin", "config-diff").Output()
+	if err != nil {
+
+		log.Fatal(err)
+
+	}
+	data := fmt.Sprintf("%s", out)
+	result := strings.Split(strings.TrimSpace(data), "\n")
+
+	for index, each := range result {
+		file := each[5:len(each)]
+		result[index] = "/etc/" + file
+	}
+	return result
+}
+
+func CreateDiffTarGz() bool {
+	status := getRpmOstreeStatus()
+	deployment := getCurrentDeployment(status)
+	name := deployment.Checksum[0:6]
+	path := filepath.Join(BackupPath(), name+".tar.gz")
+	files := configDiff()
+	file, err := os.Create(path)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer file.Close()
+	// set up the gzip writer
+	gw := gzip.NewWriter(file)
+	defer gw.Close()
+	tw := tar.NewWriter(gw)
+	defer tw.Close()
+	// grab the paths that need to be added in
+
+	for _, i := range files {
+		if err := addFile(tw, i); err != nil {
+			log.Fatalln(err)
+			return false
+		}
+	}
+	updateBackupList(deployment.backupDeployment)
+	return true
+}
+
+func getRpmOstreeStatus() rpmOstreeStatusOutput {
+	var status rpmOstreeStatusOutput
+	out, _ := execCommand("rpm-ostree", "status", "--json").Output()
+	json.Unmarshal(out, &status)
+	return status
+}
+
+func getCurrentDeployment(status rpmOstreeStatusOutput) rpmOstreeDeployment {
+	fmt.Printf("getCurrentDeployment: %s\n", status)
+	for _, d := range status.Deployments {
+		fmt.Printf("%v %q \n\n", d, d)
+		if d.Booted {
+			return d
+		}
+	}
+	return rpmOstreeDeployment{}
+}
+
+func getBackupList() []backupDeployment {
+	var result []backupDeployment
+	file := BackupIndexFile()
+	data, _ := ioutil.ReadFile(file)
+	yaml.Unmarshal([]byte(data), &result)
+	return result
+}
+
+func updateBackupList(b backupDeployment) []backupDeployment {
+	file := BackupIndexFile()
+	result := getBackupList()
+	new_item := true
+	for _, v := range result {
+		if v.Checksum == b.Checksum {
+			new_item = false
+		}
+	}
+	if new_item {
+		result = append(result, b)
+
+		data, _ := yaml.Marshal(&result)
+		ioutil.WriteFile(file, data, 0644)
+	}
+	return result
+}
+
+func GetRollbackDeployment(b string) {
+	items := getBackupList()
+	// if b == "" {
+	// 	return items[0].backupDeployment
+	// }
+	for _, v := range items {
+		fmt.Println(v.Checksum)
 	}
 }

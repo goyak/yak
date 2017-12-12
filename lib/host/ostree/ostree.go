@@ -42,6 +42,12 @@ type backupDeployment struct {
 	Checksum  string
 	Timestamp uint64 `json:"timestamp"`
 }
+
+type backupData struct {
+	Repo    string             `yaml:"repo"`
+	Backups []backupDeployment `yaml:"backups,flow"`
+}
+
 type rpmOstreeDeployment struct {
 	backupDeployment
 	Booted bool
@@ -92,7 +98,7 @@ func configDiff() []string {
 	return result
 }
 
-func CreateDiffTarGz() bool {
+func SaveDiffTarGz(repoName string) bool {
 	status := getRpmOstreeStatus()
 	deployment := getCurrentDeployment(status)
 	name := deployment.Checksum[0:6]
@@ -116,7 +122,7 @@ func CreateDiffTarGz() bool {
 			return false
 		}
 	}
-	updateBackupList(deployment.backupDeployment)
+	updateBackupList(deployment.backupDeployment, repoName)
 	return true
 }
 
@@ -138,26 +144,26 @@ func getCurrentDeployment(status rpmOstreeStatusOutput) rpmOstreeDeployment {
 	return rpmOstreeDeployment{}
 }
 
-func getBackupList() []backupDeployment {
-	var result []backupDeployment
+func getBackupList() backupData {
+	var result backupData
 	file := BackupIndexFile()
 	data, _ := ioutil.ReadFile(file)
 	yaml.Unmarshal([]byte(data), &result)
 	return result
 }
 
-func updateBackupList(b backupDeployment) []backupDeployment {
+func updateBackupList(b backupDeployment, repoName string) backupData {
 	file := BackupIndexFile()
 	result := getBackupList()
 	new_item := true
-	for _, v := range result {
+	for _, v := range result.Backups {
 		if v.Checksum == b.Checksum {
 			new_item = false
 		}
 	}
 	if new_item {
-		result = append(result, b)
-
+		result.Backups = append(result.Backups, b)
+		result.Repo = repoName
 		data, _ := yaml.Marshal(&result)
 		ioutil.WriteFile(file, data, 0644)
 	}
@@ -167,9 +173,9 @@ func updateBackupList(b backupDeployment) []backupDeployment {
 func GetRollbackDeployment(b string) {
 	items := getBackupList()
 	// if b == "" {
-	// 	return items[0].backupDeployment
+	// 	return items[0].BackupDeployment
 	// }
-	for _, v := range items {
+	for _, v := range items.Backups {
 		fmt.Println(v.Checksum)
 	}
 }

@@ -39,16 +39,20 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+		var backup string
 		fmt.Printf("rollback called %d, %v\n", len(args), doList)
 		if doList {
 			fmt.Printf("prepare backlist\n")
+			for _, v := range ostree.GetBackupList().Backups {
+				fmt.Println(v.Checksum)
+			}
 			return
 		}
-		if len(args) > 0 {
-			fmt.Printf("do backup: <%s>\n", args[0])
-			return
+		if len(args) == 1 {
+			backup = args[0]
 		}
-		fmt.Printf("do latest backup\n")
+		x := ostree.GetRollbackDeployment(backup)
+		fmt.Printf("do backup %v\n", x)
 	},
 }
 

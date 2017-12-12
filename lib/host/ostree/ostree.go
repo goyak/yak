@@ -34,7 +34,7 @@ import (
 	"gitlab.com/EasyStack/yakety/lib/utils"
 )
 
-type backupDeployment struct {
+type BackupDeployment struct {
 	Version   string
 	Origin    string
 	Osname    string
@@ -45,11 +45,11 @@ type backupDeployment struct {
 
 type backupData struct {
 	Repo    string             `yaml:"repo"`
-	Backups []backupDeployment `yaml:"backups,flow"`
+	Backups []BackupDeployment `yaml:"backups,flow"`
 }
 
 type rpmOstreeDeployment struct {
-	backupDeployment
+	BackupDeployment
 	Booted bool
 }
 
@@ -122,7 +122,7 @@ func SaveDiffTarGz(repoName string) bool {
 			return false
 		}
 	}
-	updateBackupList(deployment.backupDeployment, repoName)
+	updateBackupList(deployment.BackupDeployment, repoName)
 	return true
 }
 
@@ -144,7 +144,7 @@ func getCurrentDeployment(status rpmOstreeStatusOutput) rpmOstreeDeployment {
 	return rpmOstreeDeployment{}
 }
 
-func getBackupList() backupData {
+func GetBackupList() backupData {
 	var result backupData
 	file := BackupIndexFile()
 	data, _ := ioutil.ReadFile(file)
@@ -152,9 +152,9 @@ func getBackupList() backupData {
 	return result
 }
 
-func updateBackupList(b backupDeployment, repoName string) backupData {
+func updateBackupList(b BackupDeployment, repoName string) backupData {
 	file := BackupIndexFile()
-	result := getBackupList()
+	result := GetBackupList()
 	new_item := true
 	for _, v := range result.Backups {
 		if v.Checksum == b.Checksum {
@@ -170,12 +170,16 @@ func updateBackupList(b backupDeployment, repoName string) backupData {
 	return result
 }
 
-func GetRollbackDeployment(b string) {
-	items := getBackupList()
-	// if b == "" {
-	// 	return items[0].BackupDeployment
-	// }
-	for _, v := range items.Backups {
+func GetRollbackDeployment(b string) BackupDeployment {
+	items := GetBackupList()
+	for i, v := range items.Backups {
+		if v.Checksum[0:len(b)] == b {
+			return v
+		}
+		if b == "" && i == (len(items.Backups)-1) {
+			return v
+		}
 		fmt.Println(v.Checksum)
 	}
+	return BackupDeployment{}
 }

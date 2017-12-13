@@ -20,6 +20,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os/exec"
+	"strings"
 
 	"gopkg.in/yaml.v2"
 )
@@ -98,13 +99,14 @@ func (r BaseRecipeConfig) Install() bool {
 }
 
 func (r BaseRecipeConfig) Fetch(root string) bool {
-	cmd := exec.Command("git", "clone", "https://"+r.Name, root+"/recipes/"+r.Name)
+	cmd := exec.Command("git", "clone", "https://"+r.Name+".git", root+"/recipes/"+r.Name)
 	fmt.Printf("git clone https://%s\n", r.Name)
 	err := cmd.Run()
-	log.Printf("Command finished with error: %v", err)
 	if err != nil {
+		log.Printf("Failed.\ncmd: %s,\nerror: %v\n", strings.Join(cmd.Args, " "), err)
 		return false
 	}
+	log.Printf("Done.\n")
 	return true
 }
 

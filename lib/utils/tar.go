@@ -29,11 +29,12 @@ func AddTarFile(tw *tar.Writer, path string) error {
 		return err
 	}
 	defer file.Close()
-	if stat, err := file.Stat(); err == nil {
+	if stat, err := os.Lstat(path); err == nil {
 		// now lets create the header as needed for this file within the tarball
 		header := new(tar.Header)
+		mode := stat.Mode()
 		header.Name = path
-		if !stat.IsDir() {
+		if mode.IsRegular() {
 			header.Size = stat.Size()
 			header.ModTime = stat.ModTime()
 			header.Mode = int64(stat.Mode())
@@ -47,11 +48,15 @@ func AddTarFile(tw *tar.Writer, path string) error {
 			return err
 		}
 
-		if !stat.IsDir() {
+		if mode.IsRegular() {
 			// write the header to the tarball archive
 			// copy the file data to the tarball
 			fmt.Printf("copying %s ... m: %d\n", path, header.Mode)
 			if _, err := io.Copy(tw, file); err != nil {
+				fmt.Printf("err: %s\n", err)
+				fmt.Printf(" >> n: %s \n", header.Name)
+				fmt.Printf(" >> size: %d \n", header.Size)
+				fmt.Printf(" >> m: %d \n", header.Mode)
 				return err
 			}
 			fmt.Printf("copied %s.\n", path)

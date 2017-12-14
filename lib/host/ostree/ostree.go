@@ -82,18 +82,18 @@ func BackupIndexFile() string {
 }
 
 func configDiff() []string {
+	var result []string
 	out, err := exec.Command("ostree", "admin", "config-diff").Output()
 	if err != nil {
-
 		log.Fatal(err)
-
 	}
-	data := fmt.Sprintf("%s", out)
-	result := strings.Split(strings.TrimSpace(data), "\n")
 
-	for index, each := range result {
-		file := each[5:len(each)]
-		result[index] = "/etc/" + file
+	data := strings.Split(strings.TrimSpace(string(out)), "\n")
+	for _, each := range data {
+		if string(each[0]) != "D" {
+			file := each[5:len(each)]
+			result = append(result, "/etc/"+file)
+		}
 	}
 	return result
 }

@@ -21,6 +21,6 @@ func LoadRecipe(yakroot string, repo string) IRecipeConfig {
 		return LoadRecipeConfig(path + "/" + "yak.yml")
 	}
 	r := BaseRecipeConfig{}
-	r.Name = repo
+	r.Repo = repo
 	return r
 }

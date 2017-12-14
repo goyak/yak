@@ -1,11 +1,11 @@
 package recipe
 
 import (
-	"fmt"
 	"os/exec"
 	"strings"
 
 	"gitlab.com/EasyStack/yakety/lib/host/ostree"
+	"gitlab.com/EasyStack/yakety/lib/utils"
 )
 
 type AtomicRecipeConfig struct {
@@ -16,29 +16,21 @@ func (r AtomicRecipeConfig) IsInstallable() bool {
 	return ostree.IsOstreeHost()
 }
 
-func (r AtomicRecipeConfig) Install() bool {
+func (r AtomicRecipeConfig) Install(dryrun bool) bool {
 	// backup current local config
 	// ostree admin config-diff
 	ostree.SaveDiffTarGz(r.Repo)
-
 	remoteName := strings.Split(r.Branch, "/")[0]
-	addRemoteCmd := exec.Command("ostree", "remote", "add", "--if-not-exists", "--no-gpg-verify", remoteName, r.Source)
-	fmt.Printf("::: %s  %q \n", addRemoteCmd.Path, addRemoteCmd.Args)
-	// addRemoteCmd.Run()
+
+	addRemoteCmd := utils.Cmd("ostree", "remote", "add", "--if-not-exists", "--no-gpg-verify", remoteName, r.Source)
+	utils.DoRun(addRemoteCmd, dryrun)
 
 	pullCmd := exec.Command("ostree", "pull", remoteName, r.Commit)
-	fmt.Printf("::: %s  %q \n", pullCmd.Path, pullCmd.Args)
-	// pullCmd.Run()
+	utils.DoRun(pullCmd, dryrun)
 
-	// ostree admin deploy d518b37c348eb814093249f035ae852e7723840521b4bcb4a271a80b5988c44a
-	// rpm-ostree deploy 173278f2ccba80c5cdda4b9530e6f0388177fb6d27083
+	deployCmd := exec.Command("rpm-ostree", "deploy", r.Commit)
+	utils.DoRun(deployCmd, dryrun)
 
-	cmd := exec.Command("rpm-ostree", "deploy", r.Commit)
-	cmd.Run()
-	fmt.Printf("::: %s  %q \n", cmd.Path, cmd.Args)
-
-	// Prepare to reboot
-	// cmd := exec.Command("ostree", "/tmp/aaa")
-	// cmd.Run()
+	// FIXME Prepare to reboot
 	return true
 }

@@ -16,7 +16,6 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"path/filepath"
 
@@ -26,36 +25,33 @@ import (
 )
 
 var installCmd = appCmd(install, "install")
+var doRun bool
 
 func install(r recipe.IRecipeConfig) {
 	cfg := r.GetRecipeConfig()
 	if !r.IsRecipe() {
-		fmt.Printf("need: yak fetch %s\n", cfg.Name)
-		return
+		log.Printf("do yak fetch %s %q\n", cfg.Name, cfg)
+		r.Fetch(env.YakRoot())
+		r = recipe.LoadRecipe(env.YakRoot(), cfg.Repo)
 	}
 	if !r.IsInstallable() {
 		log.Fatalf("cannot install: %s\n", cfg.Name)
 		return
 	}
-	if !r.Install() {
-		fmt.Printf("install failed %s\n", cfg.Name)
+	if !r.Install(doRun) {
+		log.Printf("install failed %s\n", cfg.Name)
 		return
 	}
-	path := filepath.Join(env.YakRoot(), env.LocalIndex)
-	idx := index.LoadIndex(path)
-	idx.Install(cfg)
-	// fmt.Printf("installed %s\n", cfg.Name)
+
+	if doRun {
+		path := filepath.Join(env.YakRoot(), env.LocalIndex)
+		idx := index.LoadIndex(path)
+		idx.Install(cfg)
+		log.Printf("index updated.\n")
+	}
 }
 
 func init() {
 	RootCmd.AddCommand(installCmd)
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	installCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	installCmd.Flags().BoolP("toggle_abc", "t", false, "Help message for toggle")
+	installCmd.Flags().BoolVarP(&doRun, "dry-run", "D", false, "List rollback items")
 }

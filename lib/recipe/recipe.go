@@ -54,7 +54,7 @@ type IRecipeConfig interface {
 	IsRecipe() bool
 	GetRecipeConfig() RecipeConfig
 	IsInstallable() bool
-	Install() bool
+	Install(dryrun bool) bool
 	Dump() string
 	Fetch(root string) bool
 }
@@ -94,13 +94,13 @@ func (r BaseRecipeConfig) IsRecipe() bool {
 	}
 }
 
-func (r BaseRecipeConfig) Install() bool {
+func (r BaseRecipeConfig) Install(dryrun bool) bool {
 	return false
 }
 
 func (r BaseRecipeConfig) Fetch(root string) bool {
-	cmd := exec.Command("git", "clone", "https://"+r.Name+".git", root+"/recipes/"+r.Name)
-	fmt.Printf("git clone https://%s\n", r.Name)
+	cmd := exec.Command("git", "clone", "https://"+r.Repo+".git", root+"/recipes/"+r.Repo)
+	fmt.Printf("git clone https://%s\n", r.Repo)
 	err := cmd.Run()
 	if err != nil {
 		log.Printf("Failed.\ncmd: %s,\nerror: %v\n", strings.Join(cmd.Args, " "), err)

@@ -19,7 +19,8 @@ func (r AtomicRecipeConfig) IsInstallable() bool {
 func (r AtomicRecipeConfig) Install(dryrun bool) bool {
 	// backup current local config
 	// ostree admin config-diff
-	ostree.SaveDiffTarGz(r.Repo)
+
+	ostree.Backup(r.Repo)
 	remoteName := strings.Split(r.Branch, "/")[0]
 
 	addRemoteCmd := utils.Cmd("ostree", "remote", "add", "--if-not-exists", "--no-gpg-verify", remoteName, r.Source)

@@ -40,6 +40,7 @@ type BackupDeployment struct {
 	Osname    string
 	Commit    string `json:"base-checksum"`
 	Checksum  string
+	Id        string
 	Timestamp uint64 `json:"timestamp"`
 }
 
@@ -98,6 +99,44 @@ func configDiff() []string {
 	return result
 }
 
+var sourcePath string
+var targetPath string
+
+func backupEtcFile(path string, info os.FileInfo, err error) error {
+	if err != nil {
+		log.Print(err)
+		return nil
+	}
+	tPath := filepath.Join(targetPath, path)
+
+	if info.IsDir() {
+		os.MkdirAll(tPath, info.Mode())
+	} else {
+		sPath := filepath.Join(sourcePath, path)
+		err := os.Link(sPath, tPath)
+		if err != nil {
+			log.Printf("ln %s %s :%s \n", sPath, tPath, err)
+		}
+	}
+	return nil
+}
+
+func Backup(repoName string) error {
+	status := getRpmOstreeStatus()
+	deployment := getCurrentDeployment(status)
+
+	basePath := filepath.Join("/sysroot/ostree/deploy/", deployment.Osname, "deploy")
+	// FIXME shouldn't hardcode env.YakRoot()
+	rootPath := filepath.Join("/sysroot/ostree/deploy/", deployment.Osname, "var/roothome/yak", env.DataDir, "atomic")
+	os.MkdirAll(rootPath, 0755)
+	sourcePath = filepath.Join(basePath, strings.Split(deployment.Id, deployment.Osname+"-")[1])
+	targetPath = filepath.Join(rootPath, deployment.Checksum[0:6])
+
+	return filepath.Walk("/etc", backupEtcFile)
+}
+
+// Keep SaveDiffTarGz for reference,
+// we might remove it later
 func SaveDiffTarGz(repoName string) bool {
 	status := getRpmOstreeStatus()
 	deployment := getCurrentDeployment(status)
@@ -134,9 +173,8 @@ func getRpmOstreeStatus() rpmOstreeStatusOutput {
 }
 
 func getCurrentDeployment(status rpmOstreeStatusOutput) rpmOstreeDeployment {
-	fmt.Printf("getCurrentDeployment: %s\n", status)
 	for _, d := range status.Deployments {
-		fmt.Printf("%v %q \n\n", d, d)
+		log.Printf("%v %q \n\n", d, d)
 		if d.Booted {
 			return d
 		}

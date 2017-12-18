@@ -26,7 +26,9 @@ var Cmd = exec.Command
 func DoRun(cmd *exec.Cmd, dryrun bool) error {
 	log.Printf("::: %s  %q \n", cmd.Path, cmd.Args)
 	if !dryrun {
-		return cmd.Run()
+		out, err := cmd.Output()
+		log.Printf("command output:\n%s\n", out)
+		return err
 	}
 	return nil
 }

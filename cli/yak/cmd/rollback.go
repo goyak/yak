@@ -25,7 +25,6 @@ import (
 )
 
 // listCmd represents the list command
-var doList bool
 
 //var idx index.Index
 var rollbackCmd = &cobra.Command{
@@ -40,11 +39,10 @@ to quickly create a Cobra application.`,
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		var backup string
-		fmt.Printf("rollback called %d, %v\n", len(args), doList)
 		if doList {
 			fmt.Printf("prepare backlist\n")
-			for _, v := range ostree.GetBackupList().Backups {
-				fmt.Println(v.Checksum)
+			for i, v := range ostree.GetBackupList().Backups {
+				fmt.Printf("%d %s\n", i, v.Checksum)
 			}
 			return
 		}
@@ -52,13 +50,16 @@ to quickly create a Cobra application.`,
 			backup = args[0]
 		}
 		x := ostree.GetRollbackDeployment(backup)
-		fmt.Printf("do backup %v\n", x)
+		x.Rollback(doRun)
 	},
 }
+
+// FIXME use host or recipe base to check rollback able
 
 func init() {
 	if ostree.IsOstreeHost() {
 		RootCmd.AddCommand(rollbackCmd)
 	}
 	rollbackCmd.Flags().BoolVarP(&doList, "list", "l", false, "List rollback items")
+	rollbackCmd.Flags().BoolVarP(&doRun, "dry-run", "D", false, "Dry Run")
 }

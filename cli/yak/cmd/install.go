@@ -25,7 +25,6 @@ import (
 )
 
 var installCmd = appCmd(install, "install")
-var doRun bool
 
 func install(r recipe.IRecipeConfig) {
 	cfg := r.GetRecipeConfig()
@@ -53,5 +52,5 @@ func install(r recipe.IRecipeConfig) {
 
 func init() {
 	RootCmd.AddCommand(installCmd)
-	installCmd.Flags().BoolVarP(&doRun, "dry-run", "D", false, "List rollback items")
+	installCmd.Flags().BoolVarP(&doRun, "dry-run", "D", false, "Dry Run")
 }

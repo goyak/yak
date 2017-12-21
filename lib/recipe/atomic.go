@@ -1,6 +1,7 @@
 package recipe
 
 import (
+	"log"
 	"os/exec"
 	"strings"
 
@@ -33,5 +34,6 @@ func (r AtomicRecipeConfig) Install(dryrun bool) bool {
 	utils.DoRun(deployCmd, dryrun)
 
 	// FIXME Prepare to reboot
+	log.Printf("Deployed, please reboot. (systemctl reboot)\n")
 	return true
 }

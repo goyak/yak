@@ -102,20 +102,23 @@ func configDiff() []string {
 var sourcePath string
 var targetPath string
 
-func backupEtcFile(path string, info os.FileInfo, err error) error {
+func backupFileFunc(path string, info os.FileInfo, err error) error {
 	if err != nil {
 		log.Print(err)
 		return nil
 	}
-	tPath := filepath.Join(targetPath, path)
+
+	base := strings.Split(sourcePath, `/`)
+	ppath := strings.Split(path, sourcePath)
+
+	tPath := filepath.Join(targetPath, base[len(base)-1], ppath[1])
 
 	if info.IsDir() {
 		os.MkdirAll(tPath, info.Mode())
 	} else {
-		sPath := filepath.Join(sourcePath, path)
-		err := os.Link(sPath, tPath)
+		err := os.Link(path, tPath)
 		if err != nil {
-			log.Printf("ln %s %s :%s \n", sPath, tPath, err)
+			log.Printf("ln %s %s :%s \n", path, tPath, err)
 		}
 	}
 	return nil
@@ -129,10 +132,11 @@ func Backup(repoName string) error {
 	// FIXME shouldn't hardcode env.YakRoot()
 	rootPath := filepath.Join("/sysroot/ostree/deploy/", deployment.Osname, "var/roothome/yak", env.DataDir, "atomic")
 	os.MkdirAll(rootPath, 0755)
-	sourcePath = filepath.Join(basePath, strings.Split(deployment.Id, deployment.Osname+"-")[1])
+	sourcePath = filepath.Join(basePath, strings.Split(deployment.Id, deployment.Osname+"-")[1], `etc`)
 	targetPath = filepath.Join(rootPath, deployment.Checksum[0:6])
 
-	return filepath.Walk("/etc", backupEtcFile)
+	updateBackupList(deployment.BackupDeployment, repoName)
+	return filepath.Walk(sourcePath, backupFileFunc)
 }
 
 // Keep SaveDiffTarGz for reference,
@@ -183,10 +187,12 @@ func getCurrentDeployment(status rpmOstreeStatusOutput) rpmOstreeDeployment {
 }
 
 func GetBackupList() backupData {
-	var result backupData
+	result := backupData{}
 	file := BackupIndexFile()
-	data, _ := ioutil.ReadFile(file)
-	yaml.Unmarshal([]byte(data), &result)
+	data, err := ioutil.ReadFile(file)
+	if err == nil {
+		yaml.Unmarshal([]byte(data), &result)
+	}
 	return result
 }
 
@@ -220,4 +226,42 @@ func GetRollbackDeployment(b string) BackupDeployment {
 		fmt.Println(v.Checksum)
 	}
 	return BackupDeployment{}
+}
+
+func (b *BackupDeployment) Rollback(dryrun bool) bool {
+	fmt.Printf("do backup %v\n", b)
+	deployCmd := utils.Cmd("rpm-ostree", "deploy", b.Commit)
+	utils.DoRun(deployCmd, dryrun)
+
+	status := getRpmOstreeStatus()
+	for _, v := range status.Deployments {
+		if v.Commit == b.Commit {
+			idPath := strings.Split(v.Id, v.Osname+"-")[1]
+			targetPath = filepath.Join("/sysroot/ostree/deploy/", b.Osname, "deploy", idPath)
+		}
+	}
+
+	files, err := ioutil.ReadDir(targetPath + "/etc/")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, file := range files {
+		fmt.Println(file.Name())
+		if !dryrun {
+			fmt.Println("remove", targetPath+"/etc/"+file.Name())
+			err = os.RemoveAll(targetPath + "/etc/" + file.Name())
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+	}
+
+	sourcePath = filepath.Join("/sysroot/ostree/deploy/", b.Osname, "var/roothome/yak", env.DataDir, "atomic", b.Checksum[0:6], "etc")
+
+	if !dryrun {
+		filepath.Walk(sourcePath, backupFileFunc)
+	}
+	fmt.Printf("Rollbacked, please reboot. (systemctl reboot)\n")
+	return true
 }

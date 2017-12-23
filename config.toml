@@ -1,0 +1,5 @@
+baseURL = "https://goyak.io/"
+languageCode = "en-us"
+title = "Yak"
+theme = "ananke"
+publishDir = "public"

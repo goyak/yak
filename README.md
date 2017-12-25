@@ -16,11 +16,7 @@ Refer detail information in docs. https://goyak.io
  # get govendor
  $ go get -u github.com/kardianos/govendor
 
-<<<<<<< Updated upstream
- # switch to yakety dir
-=======
  # switch to yak dir
->>>>>>> Stashed changes
  $ cd $GOPATH/src/github.com/goyak/yak
 
  # sync

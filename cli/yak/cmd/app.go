@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/spf13/cobra"
 	"github.com/goyak/yak/lib/env"
 	"github.com/goyak/yak/lib/recipe"
+	"github.com/spf13/cobra"
 )
 
 func appCmd(fn func(recipe.IRecipeConfig), str string) *cobra.Command {

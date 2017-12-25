@@ -19,9 +19,9 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/spf13/cobra"
 	"github.com/goyak/yak/lib/env"
 	"github.com/goyak/yak/lib/index"
+	"github.com/spf13/cobra"
 )
 
 // listCmd represents the list command

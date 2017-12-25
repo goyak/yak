@@ -19,8 +19,8 @@ import (
 	"fmt"
 	// "path/filepath"
 
-	"github.com/spf13/cobra"
 	"github.com/goyak/yak/lib/host/ostree"
+	"github.com/spf13/cobra"
 	// "github.com/goyak/yak/lib/index"
 )
 

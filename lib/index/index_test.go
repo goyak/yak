@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/goyak/yak/lib/recipe"
+	"github.com/stretchr/testify/assert"
 	"gopkg.in/yaml.v2"
 )
 

@@ -5,8 +5,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"gitlab.com/EasyStack/yakety/lib/host/ostree"
-	"gitlab.com/EasyStack/yakety/lib/utils"
+	"github.com/goyak/yak/lib/host/ostree"
+	"github.com/goyak/yak/lib/utils"
 )
 
 type AtomicRecipeConfig struct {

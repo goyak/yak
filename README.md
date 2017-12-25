@@ -1,7 +1,6 @@
-# Yakety application keeper
+# yak application keeper
 
-Refer detail information in docs. https://gitlab.com/EasyStack/yakety/tree/master/docs
-Or quick overview slide: https://gitpitch.com/Easystack/yakety/master?grs=gitlab&p=docs/talks
+Refer detail information in docs. https://goyak.io
 
 ## How to build
 
@@ -13,12 +12,16 @@ Or quick overview slide: https://gitpitch.com/Easystack/yakety/master?grs=gitlab
  $ export GOPATH=$HOME/go
 
  # clone yak
- $ go get gitlab.com/EasyStack/yakety
+ $ go get github.com/goyak/yak
  # get govendor
  $ go get -u github.com/kardianos/govendor
 
+<<<<<<< Updated upstream
  # switch to yakety dir
- $ cd $GOPATH/src/gitlab.com/EasyStack/yakety
+=======
+ # switch to yak dir
+>>>>>>> Stashed changes
+ $ cd $GOPATH/src/github.com/goyak/yak
 
  # sync
  $ govendor sync
@@ -26,3 +29,6 @@ Or quick overview slide: https://gitpitch.com/Easystack/yakety/master?grs=gitlab
  # build yak
  $ make build
 ```
+---
+
+Project sponsored by EasyStack Inc.

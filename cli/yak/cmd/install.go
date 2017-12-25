@@ -19,9 +19,9 @@ import (
 	"log"
 	"path/filepath"
 
-	"gitlab.com/EasyStack/yakety/lib/env"
-	"gitlab.com/EasyStack/yakety/lib/index"
-	"gitlab.com/EasyStack/yakety/lib/recipe"
+	"github.com/goyak/yak/lib/env"
+	"github.com/goyak/yak/lib/index"
+	"github.com/goyak/yak/lib/recipe"
 )
 
 var installCmd = appCmd(install, "install")

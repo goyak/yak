@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/EasyStack/yakety/lib/recipe"
+	"github.com/goyak/yak/lib/recipe"
 	"gopkg.in/yaml.v2"
 )
 

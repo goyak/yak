@@ -15,7 +15,7 @@
 
 package main
 
-import "gitlab.com/EasyStack/yakety/cli/yak/cmd"
+import "github.com/goyak/yak/cli/yak/cmd"
 
 func main() {
 	cmd.Execute()

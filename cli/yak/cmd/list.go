@@ -20,8 +20,8 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/EasyStack/yakety/lib/env"
-	"gitlab.com/EasyStack/yakety/lib/index"
+	"github.com/goyak/yak/lib/env"
+	"github.com/goyak/yak/lib/index"
 )
 
 // listCmd represents the list command

@@ -2,7 +2,7 @@ image: golang:alpine
 
 
 variables:
-  REPO_NAME: gitlab.com/EasyStack/yakety
+  REPO_NAME: github.com/goyak/yak
 
 stages:
   - lint

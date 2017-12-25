@@ -74,11 +74,11 @@
         [recipes];
       };
     };
-    yakety.io - psql;
+    goyak.io - psql;
   };
-  yakety.io - yakd;
-  web_client -> yakety.io;
-  cli -> yakety.io;
+  goyak.io - yakd;
+  web_client -> goyak.io;
+  cli -> goyak.io;
   ;
   @enduml
 )

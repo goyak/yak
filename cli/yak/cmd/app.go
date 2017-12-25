@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/EasyStack/yakety/lib/env"
-	"gitlab.com/EasyStack/yakety/lib/recipe"
+	"github.com/goyak/yak/lib/env"
+	"github.com/goyak/yak/lib/recipe"
 )
 
 func appCmd(fn func(recipe.IRecipeConfig), str string) *cobra.Command {

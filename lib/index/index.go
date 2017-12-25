@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"gitlab.com/EasyStack/yakety/lib/recipe"
-	"gitlab.com/EasyStack/yakety/lib/utils"
+	"github.com/goyak/yak/lib/recipe"
+	"github.com/goyak/yak/lib/utils"
 	"gopkg.in/yaml.v2"
 )
 

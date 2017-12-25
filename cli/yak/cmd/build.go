@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"gitlab.com/EasyStack/yakety/lib/recipe"
+	"github.com/goyak/yak/lib/recipe"
 )
 
 var buildCmd = appCmd(build, "build")

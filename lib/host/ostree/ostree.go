@@ -29,9 +29,9 @@ import (
 
 	"gopkg.in/yaml.v2"
 
-	"gitlab.com/EasyStack/yakety/lib/env"
-	"gitlab.com/EasyStack/yakety/lib/errors"
-	"gitlab.com/EasyStack/yakety/lib/utils"
+	"github.com/goyak/yak/lib/env"
+	"github.com/goyak/yak/lib/errors"
+	"github.com/goyak/yak/lib/utils"
 )
 
 type BackupDeployment struct {

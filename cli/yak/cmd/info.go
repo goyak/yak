@@ -16,7 +16,7 @@
 package cmd
 
 import (
-	"gitlab.com/EasyStack/yakety/lib/recipe"
+	"github.com/goyak/yak/lib/recipe"
 )
 
 // infoCmd represents the info command

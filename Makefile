@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-SOURCE_REPO ?= gitlab.com/EasyStack/yakety
+SOURCE_REPO ?= github.com/goyak/yak
 YAK ?= bin/yak
 YAKD ?= bin/yakd
 
@@ -37,7 +37,7 @@ install_clean: ##@build remove installed binary
 .PHONY: test
 
 test: ARGS?=+local
-test: ##@source to run specific unittests $ ARGS="gitlab.com/EasyStack/yakety/lib/index -v" make test
+test: ##@source to run specific unittests $ ARGS="github.com/goyak/yak/lib/index -v" make test
 	@govendor test --cover -v $(ARGS)
 
 fmt: ARGS?=$(SOURCE_REPO)/...

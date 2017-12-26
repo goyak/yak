@@ -1,2 +1,4 @@
 public
 content
+# hugo git@github.com:container-os/hugoDocs.git -b hugo
+common

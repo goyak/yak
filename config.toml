@@ -1,5 +1,21 @@
+title = "Yak Application Keeper"
 baseURL = "https://goyak.io/"
 languageCode = "en-us"
-title = "Yak"
 theme = "ananke"
 publishDir = "public"
+SectionPagesMenu = "main"
+
+[params]
+  favicon = ""
+  description = "The last theme you'll ever need. Maybe."
+  facebook = ""
+  twitter = ""
+  instagram = ""
+  youtube = ""
+  github = "https://github.com/goyak/yak"
+  linkedin = ""
+  # choose a background color from any on this page: http://tachyons.io/docs/themes/skins/ and preface it with "bg-"
+  background_color_class = "bg-black"
+  featured_image = "/images/pexels-photo-707667.jpg"
+  recent_posts_number = 2
+  env = "dev" # production

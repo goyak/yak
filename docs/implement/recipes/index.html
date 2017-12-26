@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Yak Application Keeper </title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.30-DEV" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    <link href='https://goyak.io/dist/main.css' rel='stylesheet' type="text/css" />
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="" />
+<meta property="og:description" content="Application recipes (or spec, playbook) ref: snapd/snap/info_snap_yaml.go gopkg.in/yaml.v2 https://github.com/go-yaml/yaml/tree/v2
+Recipes 儲存方式以git, version 作為 git tag, commit log 作為 release note
+file structure  ├─ yak.yml ├─ config.yml └─┬─ (d) hooks └─ (d) added-files  tag log  $ git log --no-walk --tags --pretty=&quot;%h %d %s&quot; --decorate=full 3713f3f (tag: refs/tags/1.0.0, tag: refs/tags/0.6.0, refs/remotes/origin/master, refs/heads/master) SP-144/ISP-177: Updating the package.json with 0.6.0 version and the README.md. 00a3762 (tag: refs/tags/0.5.0) ISP-144/ISP-205: Update logger to save files with optional port number if defined/passed: Version 0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://goyak.io/docs/implement/recipes/" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Application recipes (or spec, playbook) ref: snapd/snap/info_snap_yaml.go gopkg.in/yaml.v2 https://github.com/go-yaml/yaml/tree/v2
+Recipes 儲存方式以git, version 作為 git tag, commit log 作為 release note
+file structure  ├─ yak.yml ├─ config.yml └─┬─ (d) hooks └─ (d) added-files  tag log  $ git log --no-walk --tags --pretty=&quot;%h %d %s&quot; --decorate=full 3713f3f (tag: refs/tags/1.0.0, tag: refs/tags/0.6.0, refs/remotes/origin/master, refs/heads/master) SP-144/ISP-177: Updating the package.json with 0.6.0 version and the README.md. 00a3762 (tag: refs/tags/0.5.0) ISP-144/ISP-205: Update logger to save files with optional port number if defined/passed: Version 0.">
+
+
+
+<meta itemprop="wordCount" content="269">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Application recipes (or spec, playbook) ref: snapd/snap/info_snap_yaml.go gopkg.in/yaml.v2 https://github.com/go-yaml/yaml/tree/v2
+Recipes 儲存方式以git, version 作為 git tag, commit log 作為 release note
+file structure  ├─ yak.yml ├─ config.yml └─┬─ (d) hooks └─ (d) added-files  tag log  $ git log --no-walk --tags --pretty=&quot;%h %d %s&quot; --decorate=full 3713f3f (tag: refs/tags/1.0.0, tag: refs/tags/0.6.0, refs/remotes/origin/master, refs/heads/master) SP-144/ISP-177: Updating the package.json with 0.6.0 version and the README.md. 00a3762 (tag: refs/tags/0.5.0) ISP-144/ISP-205: Update logger to save files with optional port number if defined/passed: Version 0."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://goyak.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Yak Application Keeper
+    </a>
+    <div class="flex-l items-center">
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/contact/" title="Contact page">
+              Contact
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/docs/" title="Documents page">
+              Documents
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/news/" title="News page">
+              News
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+
+
+
+
+  <a href="https://github.com/goyak/yak" class="link-transition github link dib z-999 pt3 pt0-l mr2" title="Github link">
+    <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+  </a>
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <div class="flex-l mt2 mw8 center">
+    <article class="center cf pv5 ph3 ph4-ns mw7">
+      <header>
+        <p class="f6 b helvetica tracked">
+          DOCS
+        </p>
+        <h1 class="f1">
+          
+        </h1>
+      </header>
+      <div class="nested-copy-line-height lh-copy f4 nested-links nested-img mid-gray">
+        
+
+<h1 id="application-recipes-or-spec-playbook">Application recipes (or spec, playbook)</h1>
+
+<p>ref: snapd/snap/info_snap_yaml.go
+gopkg.in/yaml.v2
+<a href="https://github.com/go-yaml/yaml/tree/v2">https://github.com/go-yaml/yaml/tree/v2</a></p>
+
+<p>Recipes 儲存方式以git, version 作為 git tag, commit log 作為 release note</p>
+
+<p><img src="https://g.gravizo.com/svg?
+  @startuml;
+  ;
+  frame &quot;backend&quot; {;
+    [plain];
+    [ostree];
+    [docker];
+    [k8s];
+  };
+  [plain] ..&gt; [recipes];
+  [ostree] ..&gt; [recipes];
+  [docker] ..&gt; [recipes];
+  [k8s] ..&gt; [recipes];
+  [recipes] -&gt; recipe;
+  frame &quot;files&quot; {;
+    package &quot;hooks&quot; {;
+      [do_bootloader];
+      [configure];
+      [preinst_hook];
+      [install];
+      [postinst_hook];
+      [prerm_hook];
+      [remove];
+      [postrm_hook];
+    };
+    package &quot;added_files&quot; {;
+      [file_a];
+      [file_b];
+      [file_c];
+    };
+    frame backend_specific {;
+      package &quot;backend_specific_files&quot; {;
+        [abc];
+        [foo];
+      };
+      package &quot;backend_specific_hooks&quot; {;
+        [f_abc];
+        [f_foo];
+      };
+    };
+  };
+  ; 
+  frame config.yml {;
+    package &quot;common_config&quot; {;
+      [COMMON_ABC];
+      [COMMON_FOO];
+    };
+    package &quot;config_table&quot; {;
+      [ABC];
+      [FOO];
+    };
+  };
+  frame yak.yml {;
+    [ver];
+    [desc];
+  };
+  files .&gt; config_table;
+  common_config -&gt; config_table;
+  ;
+  backend_specific_hooks .&gt; hooks;
+  backend_specific_files .&gt; added_files;
+  recipe -&gt; yak.yml;
+  recipe -&gt; config.yml;
+  recipe -&gt; files;
+  ;
+  @enduml;" alt="Recipes" /></p>
+
+<h2 id="file-structure">file structure</h2>
+
+<pre><code> ├─ yak.yml
+ ├─ config.yml
+ └─┬─ (d) hooks
+   └─ (d) added-files
+</code></pre>
+
+<h3 id="tag-log">tag log</h3>
+
+<pre><code> $ git log --no-walk --tags --pretty=&quot;%h %d %s&quot; --decorate=full
+3713f3f  (tag: refs/tags/1.0.0, tag: refs/tags/0.6.0, refs/remotes/origin/master, refs/heads/master) SP-144/ISP-177: Updating the package.json with 0.6.0 version and the README.md.
+00a3762  (tag: refs/tags/0.5.0) ISP-144/ISP-205: Update logger to save files with optional port number if defined/passed: Version 0.5.0
+d8db998  (tag: refs/tags/0.4.2) ISP-141/ISP-184/ISP-187: Fixing the bug when loading the app with Gulp and Grunt for 0.4.2
+3652484  (tag: refs/tags/0.4.1) ISP-141/ISP-184: Missing the package.json and README.md updates with the 0.4.1 version
+c55eee7  (tag: refs/tags/0.4.0) ISP-141/ISP-184/ISP-187: Updating the README.md file with the latest 1.3.0 version.
+6963d0b  (tag: refs/tags/0.3.0) ISP-141/ISP-184: Add support for custom serializers: README update
+4afdbbe  (tag: refs/tags/0.2.0) ISP-141/ISP-143/ISP-144: Fixing a bug with the creation of the logs
+e1513f1  (tag: refs/tags/0.1.0) ISP-141/ISP-143: Betterr refactoring of the Loggers, no dependencies, self-configuration for missing settings.
+</code></pre>
+
+<h2 id="yak-yml">yak.yml</h2>
+
+<pre><code>name: core
+summary: Easystack Container Linux
+version: '1.0'
+
+# ${url}:${branch}@${from}
+backend: ostree
+source: http://mirror.centos.org/centos/7/atomic/x86_64/repo
+branch: centos-atomic-host/7/x86_64/standard
+backend: ostree
+commit: 173278f2ccba80c5cdda4b9530e6f0388177fb6d27083dec9d61bbe40e22e064
+
+description: |
+  Easystack Container Linux
+</code></pre>
+
+<h2 id="backend">backend</h2>
+
+<p>不同的backend在針對每個動作會有不同的
+ - plain: upgrade yak itself
+ - ostree: atomic, systemd plugin
+ - docker: wrapper, docker-run plugin
+ - kubernetes: pod, k8s plugin
+- plugin:
+  - host status check</p>
+
+<h3 id="backend-specific-files-or-application-specific-files">backend_specific_files or application_specific_files</h3>
+
+<h3 id="ostree">ostree</h3>
+
+<ul>
+<li>add-files</li>
+<li>treecompose-post.sh</li>
+<li>*.{repo}</li>
+<li>image
+
+<ul>
+<li>config.ini</li>
+<li>xx.tdl</li>
+<li>es-atomic-host-7.ks</li>
+</ul></li>
+</ul>
+
+<h3 id="ostree-single-deployment">ostree single deployment</h3>
+
+<p>use follow command can clean up rollback deployments, but if we need to rollback, we
+need to use the recipes function.<br />
+  ostree cleanup -r</p>
+
+<p>默认rpm-ostree如果只有一个deploy时， rpm-ostree rollback 将失败。<br />
+所以应该考虑同过proxy来直接访问到ostree的code。 C</p>
+
+<h2 id="hooks">hooks</h2>
+
+<ul>
+<li>do_bootloader</li>
+<li>configure</li>
+<li>preinst_hook</li>
+<li>install</li>
+<li>postinst_hook</li>
+<li>prerm_hook</li>
+<li>remove</li>
+<li>postrm_hook</li>
+</ul>
+
+<h2 id="recipe-verification">recipe verification</h2>
+
+      </div>
+    </article>
+    <aside class="ph3 mt2 mt6-ns">
+      
+
+
+
+
+
+
+
+  <div class="bg-light-gray pa3">
+    <ul>
+      <li class="list b mb3">
+        18 More Docs
+      </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/application/core/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/application/kernel/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/application/yak/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/aws/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/baremetal/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/docker/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/openstack/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/ostree/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/implement/recipes/" class="link ph2 pv2 db black o-50">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/implement/yakhost/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/implement/yakstore/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/source/docker/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/source/ostree/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/source/plain/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/sourcecode/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/talks/pitchme/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/use-case/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/home/" class="link ph2 pv2 db black">
+            README
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/others/" class="link ph2 pv2 db black">
+            Related solutions
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+    </aside>
+  </div>
+
+    </main>
+    <footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+    <div>
+      <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://goyak.io/" >
+        &copy; 2017 Yak Application Keeper
+      </a>
+      <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://easystack.cn">
+        Project sponsored by EasyStack Inc.
+      </a>
+  </div>
+  
+
+
+
+
+
+
+
+  <a href="https://github.com/goyak/yak" class="link-transition github link dib z-999 pt3 pt0-l mr2" title="Github link">
+    <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+  </a>
+
+
+  </div>
+</footer>
+
+    <script src="https://goyak.io/dist/app.bundle.js" async></script>
+
+  </body>
+</html>

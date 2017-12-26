@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://goyak.io/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/application/core/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/application/kernel/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/application/yak/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/host/aws/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/host/baremetal/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/host/docker/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/host/openstack/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/host/ostree/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/implement/recipes/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/implement/yakhost/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/implement/yakstore/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/source/docker/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/source/ostree/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/source/plain/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/sourcecode/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/talks/pitchme/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/use-case/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/contact/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/news/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/home/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/docs/others/</loc>
+  </url>
+  
+  <url>
+    <loc>https://goyak.io/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

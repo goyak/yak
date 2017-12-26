@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Yak Application Keeper </title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.30-DEV" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    <link href='https://goyak.io/dist/main.css' rel='stylesheet' type="text/css" />
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="" />
+<meta property="og:description" content="yak host UPX – the Ultimate Packer for eXecutables &ndash;brute
+client 部份用 cobra deamon 部份用 flag 原生
+cmds:
+cmd/snap/cmd_snap_op.go
+ text template replace added-files
+ system commands  alias  yak install core, command alias example command: core-info
+ $ core-info Yak: 0.01  yakd or supervisord - process and status control  docker runwrapper local yak store  yak rest-api yak web ui yak cli yak Commands  yak fetch: 下载 recipes 至本机cache   # yak fetch # yak xxx   yak info core:   # yak info core Yak is not run on a ostree based host # yak info core name: core summary: &quot;snapd runtime environment&quot; publisher: canonical contact: snappy-canonical-storeaccount@canonical." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://goyak.io/docs/implement/yakhost/" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="yak host UPX – the Ultimate Packer for eXecutables &ndash;brute
+client 部份用 cobra deamon 部份用 flag 原生
+cmds:
+cmd/snap/cmd_snap_op.go
+ text template replace added-files
+ system commands  alias  yak install core, command alias example command: core-info
+ $ core-info Yak: 0.01  yakd or supervisord - process and status control  docker runwrapper local yak store  yak rest-api yak web ui yak cli yak Commands  yak fetch: 下载 recipes 至本机cache   # yak fetch # yak xxx   yak info core:   # yak info core Yak is not run on a ostree based host # yak info core name: core summary: &quot;snapd runtime environment&quot; publisher: canonical contact: snappy-canonical-storeaccount@canonical.">
+
+
+
+<meta itemprop="wordCount" content="311">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="yak host UPX – the Ultimate Packer for eXecutables &ndash;brute
+client 部份用 cobra deamon 部份用 flag 原生
+cmds:
+cmd/snap/cmd_snap_op.go
+ text template replace added-files
+ system commands  alias  yak install core, command alias example command: core-info
+ $ core-info Yak: 0.01  yakd or supervisord - process and status control  docker runwrapper local yak store  yak rest-api yak web ui yak cli yak Commands  yak fetch: 下载 recipes 至本机cache   # yak fetch # yak xxx   yak info core:   # yak info core Yak is not run on a ostree based host # yak info core name: core summary: &quot;snapd runtime environment&quot; publisher: canonical contact: snappy-canonical-storeaccount@canonical."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://goyak.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Yak Application Keeper
+    </a>
+    <div class="flex-l items-center">
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/contact/" title="Contact page">
+              Contact
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/docs/" title="Documents page">
+              Documents
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/news/" title="News page">
+              News
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+
+
+
+
+  <a href="https://github.com/goyak/yak" class="link-transition github link dib z-999 pt3 pt0-l mr2" title="Github link">
+    <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+  </a>
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <div class="flex-l mt2 mw8 center">
+    <article class="center cf pv5 ph3 ph4-ns mw7">
+      <header>
+        <p class="f6 b helvetica tracked">
+          DOCS
+        </p>
+        <h1 class="f1">
+          
+        </h1>
+      </header>
+      <div class="nested-copy-line-height lh-copy f4 nested-links nested-img mid-gray">
+        
+
+<h1 id="yak-host">yak host</h1>
+
+<p>UPX – the Ultimate Packer for eXecutables
+&ndash;brute</p>
+
+<p>client 部份用 cobra
+deamon 部份用 flag 原生</p>
+
+<p>cmds:</p>
+
+<p>cmd/snap/cmd_snap_op.go</p>
+
+<blockquote>
+<p>text template replace added-files</p>
+</blockquote>
+
+<h2 id="system-commands">system commands</h2>
+
+<ul>
+<li>alias</li>
+</ul>
+
+<h3 id="yak-install-core-command-alias">yak install core, command alias</h3>
+
+<p>example command: core-info</p>
+
+<pre><code> $ core-info
+Yak: 0.01
+</code></pre>
+
+<h2 id="yakd-or-supervisord-process-and-status-control">yakd or supervisord - process and status control</h2>
+
+<ul>
+<li>docker runwrapper</li>
+<li>local yak store</li>
+</ul>
+
+<h2 id="yak-rest-api">yak rest-api</h2>
+
+<h2 id="yak-web-ui">yak web ui</h2>
+
+<h2 id="yak-cli">yak cli</h2>
+
+<h3 id="yak-commands">yak Commands</h3>
+
+<ul>
+<li>yak fetch: 下载 recipes 至本机cache</li>
+</ul>
+
+<pre><code> # yak fetch
+ # yak xxx
+</code></pre>
+
+<ul>
+<li>yak info core:</li>
+</ul>
+
+<pre><code> # yak info core
+ Yak is not run on a ostree based host
+
+ # yak info core
+name:      core
+summary:   &quot;snapd runtime environment&quot;
+publisher: canonical
+contact:   snappy-canonical-storeaccount@canonical.com
+description: |
+  The core runtime environment for snapd
+type:        core
+snap-id:     99T7MUlRhtI3U0QFgl5mXXESAiSwt776
+tracking:    stable
+installed:   16-2.27.6 (2844) 85MB core
+refreshed:   2017-09-07 17:09:21 +0800 CST
+channels:                                    
+  stable:    16-2.27.6                (2844) 85MB -
+  candidate: 16-2.27.6                (2898) 85MB -
+  beta:      16-2.27.6                (2898) 85MB -
+  edge:      16-2.27.6+git365.f5f40b0 (2908) 87MB -
+</code></pre>
+
+<h2 id="使用场景规划">使用场景规划</h2>
+
+<h3 id="单机-ostree">单机 ostree</h3>
+
+<pre><code># yak fetch # update 
+</code></pre>
+
+<h3 id="user-单机">user 单机</h3>
+
+<pre><code># yak install gitea # docker pull gitea/HASH_b6a57956d1be7548aa625b38c1382fc8
+
+# yak config gitea # 秀出所有所有变数
+
+# yak config gitea set DATA_PATH=/srv/gitea # 设定变数
+
+# systemctl gitea start # 设定systemd config
+
+# gitea help # docker run gitea/HASH_b6a57956d1be7548aa625b38c1382fc8 help 另外带一些设定进去
+
+# yak try (upgrade) --channel beta gitea # 升级至 beta channel 版本
+
+# yak host register #
+</code></pre>
+
+<h3 id="企业集规划场景">企业集规划场景</h3>
+
+<pre><code># kubectl cluster-info
+
+Kubernetes master is running at http://host01:8080
+
+# yak env create staging --type=kubernetes CLUSTER_SERVICE=http://host01:8080
+
+# yak install gitea --env staging --pod=5 #
+
+# yak upgrade gitea --env staging
+Container OS
+
+# yak config core set XXX=abc
+
+# yak env create staging --type=group cluster_a
+
+# yak env add-host node-1 node-2 node-3
+
+# yak upgrade core --env cluster_a
+</code></pre>
+
+<h3 id="store-与-登入">Store 与 登入</h3>
+
+<pre><code># yak repo add fedora http://xxx
+
+# yak repo list
+
+default: http://yak.easystack.io
+
+fedora: http://xxx
+
+# yak find mysql
+
+mysql &lt;default&gt;
+
+beta: 1.2.123 mysql/b6a57956d1be7548aa625b38c1382fc
+
+stable: 1.2 mysql/b6a57956d1be7548aa625b38c1382fc
+
+mysql &lt;fedora&gt;
+
+beta: 1.2.555 mysql/b6a57956d1be7548aa625b38c1382fc
+
+stable: 1.2 mysql/b6a57956d1be7548aa625b38c1382fc
+
+# yak login shawn
+</code></pre>
+
+      </div>
+    </article>
+    <aside class="ph3 mt2 mt6-ns">
+      
+
+
+
+
+
+
+
+  <div class="bg-light-gray pa3">
+    <ul>
+      <li class="list b mb3">
+        18 More Docs
+      </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/application/core/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/application/kernel/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/application/yak/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/aws/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/baremetal/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/docker/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/openstack/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/ostree/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/implement/recipes/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/implement/yakhost/" class="link ph2 pv2 db black o-50">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/implement/yakstore/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/source/docker/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/source/ostree/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/source/plain/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/sourcecode/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/talks/pitchme/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/use-case/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/home/" class="link ph2 pv2 db black">
+            README
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/others/" class="link ph2 pv2 db black">
+            Related solutions
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+    </aside>
+  </div>
+
+    </main>
+    <footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+    <div>
+      <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://goyak.io/" >
+        &copy; 2017 Yak Application Keeper
+      </a>
+      <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://easystack.cn">
+        Project sponsored by EasyStack Inc.
+      </a>
+  </div>
+  
+
+
+
+
+
+
+
+  <a href="https://github.com/goyak/yak" class="link-transition github link dib z-999 pt3 pt0-l mr2" title="Github link">
+    <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+  </a>
+
+
+  </div>
+</footer>
+
+    <script src="https://goyak.io/dist/app.bundle.js" async></script>
+
+  </body>
+</html>

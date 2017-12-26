@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Documents on Yak Application Keeper</title>
+    <link>https://goyak.io/docs/</link>
+    <description>Recent content in Documents on Yak Application Keeper</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://goyak.io/docs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/application/core/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/application/core/</guid>
+      <description> Application/Core - 主要作業系統本身 Container OS 目前與k8s有相當多的整合, 所以預設k8s包含在整個運作系統上
+name: core summary: Easystack Container Linux version: &#39;1.0&#39; # ${url}:${branch}@${from} backend: ostree source: http://mirror.centos.org/centos/7/atomic/x86_64/repo branch: centos-atomic-host/7/x86_64/standard backend: ostree commit: 173278f2ccba80c5cdda4b9530e6f0388177fb6d27083dec9d61bbe40e22e064 description: | Easystack Container Linux  Backend: Ostree, Docker(LinuxKit) 第一階段僅支援Ostree, 未來可以整併 Docker 或者應該叫LinuxKit
+Features  bcache(?) kernel busybox  Specific Hook or Plugin build_image k8s related config </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/application/kernel/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/application/kernel/</guid>
+      <description> kernel 裁剪  remove initramfs for qemu guest   </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/application/yak/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/application/yak/</guid>
+      <description>目標讓 yak 本身可以自我更新
+ # yak install yak  example yak.yml
+name: yak summary: Yak application kit version: 1.0 backend: plain source: http://mirror.easystack.io/yak/yak-1.0.gz sha256sum: 87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7 description: | Yak application kit  Backend: Plain 放置位置可能為FTP或HTTP(S)提供直接下載,以checksum作為確認
+Specific Hook or Plugin check_os 確認系統是否為 ostree or yak-core or classic
+變數 PATH 加上 YAK_BIN_PATH, 可能不在yak本身設定需要加進相關shell設定檔案
+YAK_BIN_PATH 執行檔放置位置 系統需要可讀寫
+YAK_RECIPE_PATH yak recipe 系統需要可讀寫</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/host/aws/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/host/aws/</guid>
+      <description>aa</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/host/baremetal/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/host/baremetal/</guid>
+      <description>baremetal
+ QEMU guest  </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/host/docker/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/host/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/host/openstack/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/host/openstack/</guid>
+      <description>s</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/host/ostree/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/host/ostree/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/implement/recipes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/implement/recipes/</guid>
+      <description>Application recipes (or spec, playbook) ref: snapd/snap/info_snap_yaml.go gopkg.in/yaml.v2 https://github.com/go-yaml/yaml/tree/v2
+Recipes 儲存方式以git, version 作為 git tag, commit log 作為 release note
+file structure  ├─ yak.yml ├─ config.yml └─┬─ (d) hooks └─ (d) added-files  tag log  $ git log --no-walk --tags --pretty=&amp;quot;%h %d %s&amp;quot; --decorate=full 3713f3f (tag: refs/tags/1.0.0, tag: refs/tags/0.6.0, refs/remotes/origin/master, refs/heads/master) SP-144/ISP-177: Updating the package.json with 0.6.0 version and the README.md. 00a3762 (tag: refs/tags/0.5.0) ISP-144/ISP-205: Update logger to save files with optional port number if defined/passed: Version 0.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/implement/yakhost/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/implement/yakhost/</guid>
+      <description>yak host UPX – the Ultimate Packer for eXecutables &amp;ndash;brute
+client 部份用 cobra deamon 部份用 flag 原生
+cmds:
+cmd/snap/cmd_snap_op.go
+ text template replace added-files
+ system commands  alias  yak install core, command alias example command: core-info
+ $ core-info Yak: 0.01  yakd or supervisord - process and status control  docker runwrapper local yak store  yak rest-api yak web ui yak cli yak Commands  yak fetch: 下载 recipes 至本机cache   # yak fetch # yak xxx   yak info core:   # yak info core Yak is not run on a ostree based host # yak info core name: core summary: &amp;quot;snapd runtime environment&amp;quot; publisher: canonical contact: snappy-canonical-storeaccount@canonical.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/implement/yakstore/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/implement/yakstore/</guid>
+      <description>yak store  输出静态: repo Developer 界面: meta data upload  Developer 积分制 判断 recipe 可靠度等 gpgkey  User/Group 界面: config Host/Env meta data  hook design: Install/Configure/Connect/Upgrade and update/Scale out and scale back/Perform health checks/Undertake operational actions/Benchmark wrapper command template service relation default env config  收费服务项目  部属服务次数或 安装主机数目   recipe verification gRPC
+https://github.com/grpc-ecosystem/grpc-gateway https://developers.google.com/protocol-buffers</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/source/docker/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/source/docker/</guid>
+      <description>Docker hub tag docker inspect &amp;ndash;format=&amp;lsquo;{{.RepoDigests}}&amp;rsquo; busybox:musl [busybox@sha256:03090180de84b192027dfc77517f32cdec2716d5c3ef4703b5cda09457e3cb7d]
+Debug https://medium.com/@betz.mark/ten-tips-for-debugging-docker-containers-cde4da841a1d</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/source/ostree/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/source/ostree/</guid>
+      <description>$ yak install core
+Ostree 特性  Transactional upgrades and rollback for the system Replicating content incrementally over HTTP via GPG signatures and &amp;ldquo;pinned TLS&amp;rdquo; support Support for parallel installing more than just 2 bootable roots Binary history on the server side (and client) Introspectable shared library API for build and deployment systems Flexible support for multiple branches and repositories, supporting projects like flatpak which use libostree for applications, rather than hosts.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/source/plain/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/source/plain/</guid>
+      <description>yak itself</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/sourcecode/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/sourcecode/</guid>
+      <description> cli  spf13/cobra urfave/cli jessevdk/go-flags   </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/talks/pitchme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/talks/pitchme/</guid>
+      <description> Hello </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://goyak.io/docs/use-case/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/use-case/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>README</title>
+      <link>https://goyak.io/docs/home/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/home/</guid>
+      <description> Yak/Yakety app kit for DevOps. (WIP) 目前我们透过container与ostree等技术,让布署方面可以达到便利且稳定. 然而升级或是服务级设定需求依然无法轻易的达成. 我们将参考现行的一些服务设计一套meta-data (recipe) based的 app kit. 以application的角度提供DevOps便捷性.
+recipe = sources + hooks + config
+问题 - 处理 版本异动 与 设定  版本异动 往往需要 相对应之环境配置  ostree (atomic) postcompose.sh docker run 必须带许多参数 bind network, storage and config  延伸 依据环境或设备 有不同配置条件  upgrade, rollback try 用假资料 或 dump 与 load进去新的版本 prod or staging  状态回报 health check image 讯息不易显出, 如果一个image 提供多个以上 commands (目前docker run 预设只有一个command), 我们不容易了解image内部配置 CI/CD recipe, testing  解决方案- meta data  atomic core 管理 &amp;lt;规划系统可运作于所有可以执行docker或kubernetes环境, 但在atomic环境下可以管理机制&amp;gt;  cloud-init: api-key, client-server key exchange  image 与版本关联性  PACKAGE or SERVICES PACK:USER or GROUP:DEVICE or ENV 版本 revision (hash) pull from ostree or docker update policies  基本配置 (developer 预先规划初始值)与设定(user 调整) 企业级使用 搭配 Kubernetes 需要service 与 service 的关联资料  自我測試 Roadmap recipe design recipe spec configs - auto load config from add-files - config in recipe (default value) &amp;ndash; need to support = := git action - git commit as changelog - version as git tag add-files template  yak host status monitor host info  ostree backend recipes deploy image  ostree backend (10&amp;frasl;15) first target - atomic host yakd - status control local  </description>
+    </item>
+    
+    <item>
+      <title>Related solutions</title>
+      <link>https://goyak.io/docs/others/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://goyak.io/docs/others/</guid>
+      <description>相似solutions cloud-init
+package based package manager - yum and apt spec
+%description administrate and deploy your gandi resources %prep %setup -n gandi.cli-%{version} %build %{__python2} setup.py build %install %{__python2} setup.py install --skip-build --root $RPM_BUILD_ROOT rst2man --no-generator gandicli.man.rst | gzip -9 &amp;gt; gandi.1.gz install -d -m 0755 %{buildroot}/usr/share/man/man1 install -m 0644 gandi.1.gz %{buildroot}/usr/share/man/man1 %clean rm -r %{buildroot}  snap channels: - latest: stable: 3.1.5 (46) 7MB - candidate: ^ beta: ^ edge: 3.</description>
+    </item>
+    
+  </channel>
+</rss>

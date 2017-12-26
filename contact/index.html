@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>Yak Application Keeper </title>
+    <title>Yak Application Keeper  | Contact</title>
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
@@ -21,14 +21,14 @@
     
 
     
-      <link href="https://goyak.io/index.xml" rel="alternate" type="application/rss+xml" title="Yak Application Keeper" />
-      <link href="https://goyak.io/index.xml" rel="feed" type="application/rss+xml" title="Yak Application Keeper" />
+      <link href="https://goyak.io/contact/index.xml" rel="alternate" type="application/rss+xml" title="Yak Application Keeper" />
+      <link href="https://goyak.io/contact/index.xml" rel="feed" type="application/rss+xml" title="Yak Application Keeper" />
     
 
-    <meta property="og:title" content="" />
-<meta property="og:description" content="The last theme you&#39;ll ever need. Maybe." />
+    <meta property="og:title" content="Contact" />
+<meta property="og:description" content="We&#39;d love to hear from you" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://goyak.io/" />
+<meta property="og:url" content="https://goyak.io/contact/" />
 
 
 
@@ -43,11 +43,11 @@
 
 
 
-<meta itemprop="name" content="">
-<meta itemprop="description" content="The last theme you&#39;ll ever need. Maybe.">
+<meta itemprop="name" content="Contact">
+<meta itemprop="description" content="We&#39;d love to hear from you">
 
-<meta name="twitter:card" content="summary"/><meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="The last theme you&#39;ll ever need. Maybe."/>
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Contact"/>
+<meta name="twitter:description" content="We&#39;d love to hear from you"/>
 
   </head>
 
@@ -110,8 +110,12 @@
 
       <div class="tc-l pv4 pv6-l ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-          Yak Application Keeper
+          Contact
         </h1>
+        
+          <h2 class="fw1 f5 f3-l white-80 measure-wide-l center mt3">
+            We&#39;d love to hear from you
+          </h2>
         
       </div>
     </div>
@@ -120,124 +124,40 @@
 
     <main class="pb7" role="main">
       
-  <article class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray">
-    <p>Welcome to my blog with some of my work in progress. I&rsquo;ve been working on this book idea. You can read some of the chapters below.</p>
+  <article class="cf pa3 pa4-m pa4-l">
+    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">                
+      
 
+
+<form class="black-80 sans-serif" accept-charset="UTF-8" action="http://formspree.io/shawn@goyak.io" method="POST" role="form">
+
+    <label class="f6 b db mb1 mt3 sans-serif mid-gray"  for="name">Your Name</label>
+    <input type="text" id="name" name="name" class="w-100 f5 pv3 ph3 bg-light-gray bn"  required placeholder=" "  aria-labelledby="name"/>
+
+    <label class="f6 b db mb1 mt3 sans-serif mid-gray" for="email">Email Address</label>
+    <input type="email" id="email" name="email" class="w-100 f5 pv3 ph3 bg-light-gray bn"  required placeholder=" "  aria-labelledby="email"/>
+    <div class="requirements f6 gray glow i ph3 overflow-hidden">
+      An email address is required.
+    </div>
+
+    <label class="f6 b db mb1 mt3 sans-serif mid-gray" for="message">Message</label>
+    <textarea id="message" name="message" class="w-100 f5 pv3 ph3 bg-light-gray bn h4" aria-labelledby="message"></textarea>
+
+    <input class="db w-100 mv2 white pa3 bn hover-shadow hover-bg-blck bg-animate bg-black" type="submit" value="Send" />
+
+</form>
+
+
+    </div>
   </article>
-  
-  
-  
-  
-  
-  
-  
+  <div class="mw8 center">
     
-    
-
-    <div class="pa3 pa4-ns w-100 w-70-ns center">
+    <section class="flex-ns flex-wrap justify-around mt5">
       
-       
-          <h1 class="flex-none">
-            Recent Documents
-          </h1>
-        
-
-      
-
-      <section class="w-100 mw8">
-        
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/docs/application/core/" class="color-inherit dim link">
-            
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-           Application/Core - 主要作業系統本身 Container OS 目前與k8s有相當多的整合, 所以預設k8s包含在整個運作系統上
-name: core summary: Easystack Container Linux version: '1.0' # ${url}:${branch}@${from} backend: ostree source: http://mirror.centos.org/centos/7/atomic/x86_64/repo branch: centos-atomic-host/7/x86_64/standard backend: ostree commit: 173278f2ccba80c5cdda4b9530e6f0388177fb6d27083dec9d61bbe40e22e064 description: | Easystack Container Linux  Backend: Ostree, Docker(LinuxKit) 第一階段僅支援Ostree, 未來可以整併 Docker 或者應該叫LinuxKit
-Features  bcache(?) kernel busybox  Specific Hook or Plugin build_image k8s related config 
-        </div>
-          <a href="/docs/application/core/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/docs/application/kernel/" class="color-inherit dim link">
-            
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-           kernel 裁剪  remove initramfs for qemu guest   
-        </div>
-          <a href="/docs/application/kernel/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
-      </section>
-
-      
-      <section class="w-100">
-        <h1 class="f3">More</h1>
-        
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="/docs/application/yak/" class="link black dim">
-              
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="/docs/host/aws/" class="link black dim">
-              
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="/docs/host/baremetal/" class="link black dim">
-              
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="/docs/host/docker/" class="link black dim">
-              
-            </a>
-          </h2>
-        
-
-        
-        
-          <a href="/docs/" class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">All Documents</a>
-        
-        </section>
-      
-
-      </div>
+    </section>
   
+
+  </div>
 
     </main>
     <footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">

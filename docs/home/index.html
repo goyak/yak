@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Yak Application Keeper  | README</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.30-DEV" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    <link href='https://goyak.io/dist/main.css' rel='stylesheet' type="text/css" />
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="README" />
+<meta property="og:description" content="README of yakDocs" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://goyak.io/docs/home/" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="README">
+<meta itemprop="description" content="README of yakDocs">
+
+
+
+<meta itemprop="wordCount" content="177">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="README"/>
+<meta name="twitter:description" content="README of yakDocs"/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://goyak.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Yak Application Keeper
+    </a>
+    <div class="flex-l items-center">
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/contact/" title="Contact page">
+              Contact
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/docs/" title="Documents page">
+              Documents
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/news/" title="News page">
+              News
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+
+
+
+
+  <a href="https://github.com/goyak/yak" class="link-transition github link dib z-999 pt3 pt0-l mr2" title="Github link">
+    <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+  </a>
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <div class="flex-l mt2 mw8 center">
+    <article class="center cf pv5 ph3 ph4-ns mw7">
+      <header>
+        <p class="f6 b helvetica tracked">
+          DOCS
+        </p>
+        <h1 class="f1">
+          README
+        </h1>
+      </header>
+      <div class="nested-copy-line-height lh-copy f4 nested-links nested-img mid-gray">
+        
+
+<h1 id="yak-yakety-app-kit-for-devops-wip">Yak/Yakety app kit for DevOps. (WIP)</h1>
+
+<p>目前我们透过container与ostree等技术,让布署方面可以达到便利且稳定.
+然而升级或是服务级设定需求依然无法轻易的达成.
+我们将参考现行的一些服务设计一套meta-data (recipe) based的 app kit.
+以application的角度提供DevOps便捷性.</p>
+
+<p><strong>recipe = sources + hooks + config</strong></p>
+
+<h2 id="问题-处理-版本异动-与-设定">问题 - 处理 版本异动 与 设定</h2>
+
+<ul>
+<li>版本异动 往往需要 相对应之环境配置
+
+<ul>
+<li>ostree (atomic) postcompose.sh</li>
+<li>docker run 必须带许多参数 bind network, storage and config</li>
+</ul></li>
+<li>延伸 依据环境或设备 有不同配置条件
+
+<ul>
+<li>upgrade, rollback</li>
+<li>try 用假资料 或 dump 与 load进去新的版本</li>
+<li>prod or staging</li>
+</ul></li>
+<li>状态回报 health check</li>
+<li>image 讯息不易显出, 如果一个image 提供多个以上 commands (目前docker run 预设只有一个command), 我们不容易了解image内部配置</li>
+<li>CI/CD recipe, testing</li>
+</ul>
+
+<h2 id="解决方案-meta-data">解决方案- meta data</h2>
+
+<ul>
+<li>atomic core 管理 &lt;规划系统可运作于所有可以执行docker或kubernetes环境, 但在atomic环境下可以管理机制&gt;
+
+<ul>
+<li>cloud-init: api-key, client-server key exchange</li>
+</ul></li>
+<li>image 与版本关联性
+
+<ul>
+<li>PACKAGE or SERVICES PACK:USER or GROUP:DEVICE or ENV</li>
+<li>版本</li>
+<li>revision (hash) pull from ostree or docker</li>
+<li>update policies</li>
+</ul></li>
+<li>基本配置 (developer 预先规划初始值)与设定(user 调整)</li>
+<li>企业级使用 搭配 Kubernetes 需要service 与 service 的关联资料</li>
+</ul>
+
+<h2 id="自我測試">自我測試</h2>
+
+<h2 id="roadmap">Roadmap</h2>
+
+<h3 id="recipe-design">recipe design</h3>
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item">  recipe spec</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item">  configs</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item">  - auto load config from add-files</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item">  - config in recipe (default value)</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item">  &ndash; need to support = :=</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item">  git action</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item">  - git commit as changelog</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item">  - version as git tag</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item">  add-files template</label></li>
+</ul>
+
+<h3 id="yak-host-status-monitor">yak host status monitor</h3>
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item"> host info</label></li>
+</ul>
+
+<h3 id="ostree-backend-recipes">ostree backend recipes</h3>
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item">  deploy</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item">  image</label></li>
+</ul>
+
+<h3 id="ostree-backend-10-15">ostree backend (<sup>10</sup>&frasl;<sub>15</sub>)</h3>
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item"> first target - atomic host</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> yakd - status control</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> local</label></li>
+</ul>
+
+      </div>
+    </article>
+    <aside class="ph3 mt2 mt6-ns">
+      
+
+
+
+
+
+
+
+  <div class="bg-light-gray pa3">
+    <ul>
+      <li class="list b mb3">
+        18 More Docs
+      </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/application/core/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/application/kernel/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/application/yak/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/aws/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/baremetal/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/docker/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/openstack/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/host/ostree/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/implement/recipes/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/implement/yakhost/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/implement/yakstore/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/source/docker/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/source/ostree/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/source/plain/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/sourcecode/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/talks/pitchme/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/use-case/" class="link ph2 pv2 db black">
+            
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/home/" class="link ph2 pv2 db black o-50">
+            README
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/docs/others/" class="link ph2 pv2 db black">
+            Related solutions
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+    </aside>
+  </div>
+
+    </main>
+    <footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+    <div>
+      <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://goyak.io/" >
+        &copy; 2017 Yak Application Keeper
+      </a>
+      <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://easystack.cn">
+        Project sponsored by EasyStack Inc.
+      </a>
+  </div>
+  
+
+
+
+
+
+
+
+  <a href="https://github.com/goyak/yak" class="link-transition github link dib z-999 pt3 pt0-l mr2" title="Github link">
+    <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+  </a>
+
+
+  </div>
+</footer>
+
+    <script src="https://goyak.io/dist/app.bundle.js" async></script>
+
+  </body>
+</html>

@@ -16,7 +16,11 @@
 package cmd
 
 import (
+	"os"
+	"path/filepath"
+
 	"github.com/goyak/yak/lib/env"
+	"github.com/goyak/yak/lib/index"
 	"github.com/goyak/yak/lib/utils"
 	"github.com/spf13/cobra"
 )
@@ -27,9 +31,15 @@ var fetchCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		root := env.YakRoot()
+		path := filepath.Join(env.YakRoot(), env.LocalIndex)
+		localIdx := index.LoadIndex(path)
+
 		for _, repo := range args {
-			cmd := utils.Cmd("git", "clone", "https://"+repo+".git", root+"/recipes/"+repo)
+			cmd := utils.Cmd("git", "clone", "https://"+repo+".git", root+"/"+env.LocalDbDir+"/"+repo)
 			utils.DoRun(cmd, doRun)
+			if _, err := os.Stat(root + "/db/" + repo); err == nil {
+				localIdx.AddRemote(repo)
+			}
 		}
 	},
 }

@@ -17,15 +17,24 @@ package cmd
 
 import (
 	"github.com/goyak/yak/lib/env"
-	"github.com/goyak/yak/lib/recipe"
+	"github.com/goyak/yak/lib/utils"
+	"github.com/spf13/cobra"
 )
 
-var fetchCmd = appCmd(fetch, "fetch")
-
-func fetch(r recipe.IRecipeConfig) {
-	r.Fetch(env.YakRoot())
+var fetchCmd = &cobra.Command{
+	Use:   "fetch",
+	Short: "fetch the git repo of yak recipes or index",
+	Args:  cobra.MinimumNArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		root := env.YakRoot()
+		for _, repo := range args {
+			cmd := utils.Cmd("git", "clone", "https://"+repo+".git", root+"/recipes/"+repo)
+			utils.DoRun(cmd, doRun)
+		}
+	},
 }
 
 func init() {
 	RootCmd.AddCommand(fetchCmd)
+	fetchCmd.Flags().BoolVarP(&doRun, "dry-run", "D", false, "Dry Run")
 }

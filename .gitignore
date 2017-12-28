@@ -1,4 +1,17 @@
+# this .gitignore is for yak hugo branch
+
+# git worktree add -B gh-pages public origin/gh-pages
 public
+
+# git worktree add -B content content origin/content
 content
-# hugo git@github.com:container-os/hugoDocs.git -b hugo
-common
+
+
+# git submodule init
+# git submodule sync
+
+# go get -v github.com/gohugoio/hugo
+# go related ignore files
+#
+bin
+vendor

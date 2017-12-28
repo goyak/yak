@@ -1,2 +1,8 @@
 bin
 vendor
+
+# hugo data
+/common
+/content
+/public
+/themes

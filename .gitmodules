@@ -3,4 +3,4 @@
 	url = https://github.com/budparr/gohugo-theme-ananke.git
 [submodule "common"]
 	path = common
-	url = git://github.com/container-os/hugoDocs
+	url = git@github.com:container-os/cos-docs.git

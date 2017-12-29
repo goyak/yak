@@ -1,6 +1,3 @@
-[submodule "themes/ananke"]
-	path = themes/ananke
-	url = https://github.com/budparr/gohugo-theme-ananke.git
-[submodule "common"]
-	path = common
-	url = git@github.com:container-os/cos-docs.git
+[submodule "themes/es-ananke"]
+	path = themes/es-ananke
+	url = git@github.com:container-os/gohugo-theme-es-ananke.git

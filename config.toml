@@ -1,7 +1,7 @@
 title = "Yak Application Keeper"
 baseURL = "https://goyak.io/"
 languageCode = "en-us"
-theme = "ananke"
+theme = "es-ananke"
 publishDir = "public"
 SectionPagesMenu = "main"
 
@@ -19,3 +19,6 @@ SectionPagesMenu = "main"
   featured_image = "/images/pexels-photo-707667.jpg"
   recent_posts_number = 2
   env = "dev" # production
+
+### TODO multilingual
+### https://gohugo.io/content-management/multilingual/

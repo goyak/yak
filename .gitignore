@@ -16,3 +16,7 @@ content
 #
 bin
 vendor
+# ignore document site item...
+/public
+# ignore document site item...
+/content

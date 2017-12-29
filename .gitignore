@@ -9,6 +9,7 @@ content
 
 # git submodule init
 # git submodule sync
+# git submodule update
 
 # go get -v github.com/gohugoio/hugo
 # go related ignore files

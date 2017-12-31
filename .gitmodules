@@ -1,3 +1,7 @@
 [submodule "themes/es-ananke"]
 	path = themes/es-ananke
 	url = git@github.com:container-os/gohugo-theme-es-ananke.git
+[submodule "content"]
+	path = content
+	url = git@github.com:goyak/yak.git
+	branch = docs

@@ -25,6 +25,15 @@ Refer detail information in docs. https://goyak.io
  # build yak
  $ make build
 ```
+## hugo document
+
+```
+ $ git worktree add -B hugo hugo origin/hugo
+ $ cd hugo
+ $ git submodule init
+ $ git submodule update
+```
+
 ---
 
 Project sponsored by EasyStack Inc.

@@ -25,7 +25,6 @@ func LoadIndex(file string) Index {
 	data, err := ioutil.ReadFile(file)
 	if err != nil {
 		fmt.Printf("load file: %s\n", file)
-		panic(err)
 	}
 	err = yaml.Unmarshal([]byte(data), &out)
 	if err != nil {
@@ -34,6 +33,20 @@ func LoadIndex(file string) Index {
 	}
 	out.Name = file
 	return out
+}
+
+func (index *Index) AddRemote(remote string) {
+	installed := false
+
+	for idx, _ := range index.Remotes {
+		if index.Remotes[idx] == remote {
+			installed = true
+		}
+	}
+	if !installed {
+		index.Remotes = append(index.Remotes, remote)
+	}
+	utils.SaveYaml(index.Name, &index)
 }
 
 func (index *Index) Install(app recipe.RecipeConfig) {

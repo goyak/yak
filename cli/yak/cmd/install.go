@@ -28,11 +28,6 @@ var installCmd = appCmd(install, "install")
 
 func install(r recipe.IRecipeConfig) {
 	cfg := r.GetRecipeConfig()
-	if !r.IsRecipe() {
-		log.Printf("do yak fetch %s %q\n", cfg.Name, cfg)
-		r.Fetch(env.YakRoot())
-		r = recipe.LoadRecipe(env.YakRoot(), cfg.Repo)
-	}
 	if !r.IsInstallable() {
 		log.Fatalf("cannot install: %s\n", cfg.Name)
 		return

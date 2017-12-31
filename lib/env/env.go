@@ -5,9 +5,8 @@ import (
 	"os"
 )
 
-const LocalIndex = `index/local.yml`
-const RecipeDir = `recipes`
-const IndexDir = `index`
+const LocalIndex = `db/local.yml`
+const LocalDbDir = `db`
 const DataDir = `data`
 
 func YakRoot() string {

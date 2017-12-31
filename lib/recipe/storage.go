@@ -2,6 +2,8 @@ package recipe
 
 import (
 	"os"
+
+	"github.com/goyak/yak/lib/env"
 )
 
 // dir.go  docker.go  ostree.go  repo.go  shortcut.go  tarball.go
@@ -15,7 +17,7 @@ func isDir(pth string) (bool, error) {
 }
 
 func LoadRecipe(yakroot string, repo string) IRecipeConfig {
-	path := yakroot + "/recipes/" + repo
+	path := yakroot + "/" + env.LocalDbDir + "/" + repo
 	result, _ := isDir(path)
 	if result {
 		return LoadRecipeConfig(path + "/" + "yak.yml")

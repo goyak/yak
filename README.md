@@ -28,6 +28,7 @@ Refer detail information in docs. https://goyak.io
 ## hugo document
 
 ```
+ $ git worktree add -B docs docs origin/docs
  $ git worktree add -B hugo hugo origin/hugo
  $ cd hugo
  $ git submodule init

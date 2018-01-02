@@ -28,11 +28,17 @@ Refer detail information in docs. https://goyak.io
 ## hugo document
 
 ```
- $ git worktree add -B docs docs origin/docs
+
  $ git worktree add -B hugo hugo origin/hugo
  $ cd hugo
  $ git submodule init
  $ git submodule update
+```
+### document update
+
+We use git subtree to maintain docs.
+```
+ $ git subtree push -P docs origin docs
 ```
 
 ---

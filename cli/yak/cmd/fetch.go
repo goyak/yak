@@ -21,8 +21,8 @@ import (
 
 	"github.com/goyak/yak/lib/env"
 	"github.com/goyak/yak/lib/index"
-	"github.com/goyak/yak/lib/utils"
 	"github.com/spf13/cobra"
+	"gopkg.in/src-d/go-git.v4"
 )
 
 var fetchCmd = &cobra.Command{
@@ -35,8 +35,11 @@ var fetchCmd = &cobra.Command{
 		localIdx := index.LoadIndex(path)
 
 		for _, repo := range args {
-			cmd := utils.Cmd("git", "clone", "https://"+repo+".git", root+"/"+env.LocalDbDir+"/"+repo)
-			utils.DoRun(cmd, doRun)
+			git.PlainClone(root + "/" + env.LocalDbDir + "/" + repo, false, &git.CloneOptions{
+				URL:               "https://" + repo + ".git",
+				RecurseSubmodules: git.DefaultSubmoduleRecursionDepth,
+			})
+
 			if _, err := os.Stat(root + "/db/" + repo); err == nil {
 				localIdx.AddRemote(repo)
 			}

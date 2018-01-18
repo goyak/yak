@@ -19,7 +19,7 @@ ifdef FORCE
 endif
 	@ARGS=$(ARGS) make $(YAK) $(YAKD)
 $(YAK):
-	@go build -o $(YAK) $(ARGS) $(SOURCE_REPO)/cli/yak
+	@go build -o $(YAK) $(ARGS) $(SOURCE_REPO)
 $(YAKD):
 	@go build -o $(YAKD) $(ARGS) $(SOURCE_REPO)/cli/yakd
 
